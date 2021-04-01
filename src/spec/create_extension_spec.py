@@ -1,8 +1,7 @@
-# -*- coding: utf-8 -*-
-
 import os.path
 
-from pynwb.spec import NWBNamespaceBuilder, export_spec, NWBGroupSpec, NWBAttributeSpec
+from pynwb.spec import (NWBNamespaceBuilder, export_spec, NWBGroupSpec,
+                        NWBDatasetSpec, NWBAttributeSpec, NWBLinkSpec)
 # TODO: import the following spec classes as needed
 # from pynwb.spec import NWBDatasetSpec, NWBLinkSpec, NWBDtypeSpec, NWBRefSpec
 
@@ -25,33 +24,156 @@ def main():
     # the extension should be included, i.e., the neurodata_type and its parent
     # type and its parent type and so on. this will be addressed in a future
     # release of HDMF.
-    ns_builder.include_type('ElectricalSeries', namespace='core')
     ns_builder.include_type('TimeSeries', namespace='core')
     ns_builder.include_type('NWBDataInterface', namespace='core')
     ns_builder.include_type('NWBContainer', namespace='core')
+    ns_builder.include_type('Container', namespace='hdmf-common')
+    ns_builder.include_type('DynamicTable', namespace='hdmf-common')
     ns_builder.include_type('DynamicTableRegion', namespace='hdmf-common')
     ns_builder.include_type('VectorData', namespace='hdmf-common')
     ns_builder.include_type('Data', namespace='hdmf-common')
-
+    ns_builder.include_type('Device', namespace='core')
+    
     # TODO: define your new data types
     # see https://pynwb.readthedocs.io/en/latest/extensions.html#extending-nwb
     # for more information
-    tetrode_series = NWBGroupSpec(
-        neurodata_type_def='TetrodeSeries',
-        neurodata_type_inc='ElectricalSeries',
-        doc=('An extension of ElectricalSeries to include the tetrode ID for '
-             'each time series.'),
-        attributes=[
-            NWBAttributeSpec(
-                name='trode_id',
-                doc='The tetrode ID.',
-                dtype='int32'
+    
+   
+    OpticalSource = NWBGroupSpec(
+        neurodata_type_def='OpticalSource',
+        neurodata_type_inc='NWBDataInterface',
+        doc='A NIRS Optical Source',
+        datasets=[
+            NWBDatasetSpec(
+                name='x',
+                doc='The x coordinate of the optical source',
+                dtype='float',
+            ),
+            NWBDatasetSpec(
+                name='y',
+                doc='The y coordinate of the optical source',
+                dtype='float',
+            ),
+            NWBDatasetSpec(
+                name='z',
+                doc='The z coordinate of the optical source',
+                dtype='float',
+                quantity='?'
+            )
+        ]
+    )
+
+    OpticalDetector = NWBGroupSpec(
+        neurodata_type_def='OpticalDetector',
+        neurodata_type_inc='NWBDataInterface',
+        doc='A NIRS Optical Detector',
+        datasets=[
+            NWBDatasetSpec(
+                name='x',
+                doc='The x coordinate of the optical detector',
+                dtype='float',
+            ),
+            NWBDatasetSpec(
+                name='y',
+                doc='The y coordinate of the optical detector',
+                dtype='float',
+            ),
+            NWBDatasetSpec(
+                name='z',
+                doc='The z coordinate of the optical detector',
+                dtype='float',
+                quantity='?'
+            )
+        ]
+    )
+    
+    Optode = NWBGroupSpec(
+        neurodata_type_def='Optode',
+        neurodata_type_inc='NWBDataInterface',
+        doc='A NIRS Optode comprised of a Source and Detector pair',
+        links=[
+            NWBLinkSpec(
+                name='source',
+                doc='A link to the optical source',
+                target_type='OpticalSource',
+            ),
+            NWBLinkSpec(
+                name='detector',
+                doc='A link to the optical detector',
+                target_type='OpticalDetector',
+            ),            
+        ],
+        datasets=[
+            NWBDatasetSpec(
+                name='x',
+                doc='The x coordinate of the optode',
+                dtype='float',
+                quantity='?'
+            ),
+            NWBDatasetSpec(
+                name='y',
+                doc='The y coordinate of the optode',
+                dtype='float',
+                quantity='?'
+            ),
+            NWBDatasetSpec(
+                name='z',
+                doc='The z coordinate of the optode',
+                dtype='float',
+                quantity='?'
+            ),
+            NWBDatasetSpec(
+                name='wavelengths',
+                doc='An array of wavelengths available for this source-detector pair',
+                shape=(None,),
+                dtype='float',
+                attributes=[
+                    NWBAttributeSpec(
+                        name='unit',
+                        doc='The unit of measurement for the wavelengths',
+                        dtype='text',
+                        default_value='nm'
+                    )
+                ]
             )
         ],
     )
+    
+    
+    NIRSDevice = NWBGroupSpec(
+        neurodata_type_def='NIRSDevice',
+        neurodata_type_inc='Device',
+        doc='A NIRS Device',
+        datasets=[
+            NWBDatasetSpec(
+                neurodata_type_inc='DynamicTable',
+                name='channels',
+                doc='A table of the optical channels available on this device'
+            )
+        ]
+    )
+    
+    NIRSSeries = NWBGroupSpec(
+        neurodata_type_def='NIRSSeries',
+        neurodata_type_inc='NWBDataInterface',
+        doc='A timeseries of NIRS data',
+        datasets=[
+            NWBDatasetSpec(
+                neurodata_type_inc='DynamicTableRegion',
+                name='optodes2',
+                doc='DynamicTableRegion pointer to the optode channels represented by this NIRSSeries',
+            )
+        ]
+    )
 
     # TODO: add all of your new data types to this list
-    new_data_types = [tetrode_series]
+    new_data_types = [
+        OpticalSource,
+        OpticalDetector,
+        Optode,
+        NIRSDevice,
+        NIRSSeries
+    ]
 
     # export the spec to yaml files in the spec folder
     output_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', 'spec'))

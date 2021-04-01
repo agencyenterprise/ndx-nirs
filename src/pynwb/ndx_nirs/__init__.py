@@ -17,10 +17,15 @@ if not os.path.exists(ndx_nirs_specpath):
         'spec',
         'ndx-nirs.namespace.yaml'
     ))
-
+    
 # Load the namespace
 load_namespaces(ndx_nirs_specpath)
 
 # TODO: import your classes here or define your class using get_class to make
 # them accessible at the package level
-TetrodeSeries = get_class('TetrodeSeries', 'ndx-nirs')
+
+OpticalSource = get_class('OpticalSource', 'ndx-nirs')
+OpticalDetector = get_class('OpticalDetector', 'ndx-nirs')
+Optode = get_class('Optode', 'ndx-nirs')
+NIRSDevice = get_class('NIRSDevice', 'ndx-nirs')
+NIRSSeries = get_class('NIRSSeries', 'ndx-nirs')
