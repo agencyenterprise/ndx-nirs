@@ -1,8 +1,55 @@
 groups:
-- neurodata_type_def: TetrodeSeries
-  neurodata_type_inc: ElectricalSeries
-  doc: An extension of ElectricalSeries to include the tetrode ID for each time series.
+- neurodata_type_def: OpticalSource
+  neurodata_type_inc: NWBDataInterface
+  doc: A NIRS Optical Source
+  datasets:
+  - name: x
+    dtype: float
+    doc: The x coordinate of the optical source
+  - name: y
+    dtype: float
+    doc: The y coordinate of the optical source
+  - name: z
+    dtype: float
+    doc: The z coordinate of the optical source
+    quantity: '?'
+- neurodata_type_def: OpticalDetector
+  neurodata_type_inc: NWBDataInterface
+  doc: A NIRS Optical Detector
+  datasets:
+  - name: x
+    dtype: float
+    doc: The x coordinate of the optical detector
+  - name: y
+    dtype: float
+    doc: The y coordinate of the optical detector
+  - name: z
+    dtype: float
+    doc: The z coordinate of the optical detector
+    quantity: '?'
+- neurodata_type_def: NIRSDevice
+  neurodata_type_inc: Device
+  doc: A NIRS Device
   attributes:
-  - name: trode_id
-    dtype: int32
-    doc: The tetrode ID.
+  - name: wavelength_unit
+    dtype: text
+    default_value: nm
+    doc: The unit of measurement for the wavelength channel column
+    required: false
+  groups:
+  - name: channels
+    neurodata_type_inc: DynamicTable
+    doc: A table of the optical channels available on this device
+  - neurodata_type_inc: OpticalSource
+    doc: The OpticalSources of this device
+    quantity: +
+  - neurodata_type_inc: OpticalDetector
+    doc: The OpticalDetectors of this device
+    quantity: +
+- neurodata_type_def: NIRSSeries
+  neurodata_type_inc: TimeSeries
+  doc: A timeseries of NIRS data
+  datasets:
+  - name: channels
+    neurodata_type_inc: DynamicTableRegion
+    doc: DynamicTableRegion pointer to the optical channels represented by this NIRSSeries

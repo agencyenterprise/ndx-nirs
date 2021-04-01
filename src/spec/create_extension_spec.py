@@ -91,23 +91,21 @@ def main():
         neurodata_type_def='NIRSDevice',
         neurodata_type_inc='Device',
         doc='A NIRS Device',
-        datasets=[
-            NWBDatasetSpec(
-                name='sources',
-                doc='An array of the OpticalSources on this device',
-                dtype=NWBRefSpec(target_type='OpticalSource', reftype='object'),
-                shape=(None,)
-            ),
-            NWBDatasetSpec(
-                name='detectors',
-                doc='An array of the OpticalDetectors on this device',
-                dtype=NWBRefSpec(target_type='OpticalDetector', reftype='object'),
-                shape=(None,)
-            ),
-            NWBDatasetSpec(
+        groups=[
+            NWBGroupSpec(
                 neurodata_type_inc='DynamicTable',
                 name='channels',
                 doc='A table of the optical channels available on this device'
+            ),
+            NWBGroupSpec(
+                neurodata_type_inc='OpticalSource',
+                doc='The OpticalSources of this device',
+                quantity='+'
+            ),
+            NWBGroupSpec(
+                neurodata_type_inc='OpticalDetector',
+                doc='The OpticalDetectors of this device',
+                quantity='+'
             )
         ],
         attributes=[

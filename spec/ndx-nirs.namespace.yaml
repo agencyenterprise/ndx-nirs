@@ -12,12 +12,14 @@ namespaces:
   schema:
   - namespace: core
     neurodata_types:
-    - ElectricalSeries
     - TimeSeries
     - NWBDataInterface
     - NWBContainer
+    - Device
   - namespace: hdmf-common
     neurodata_types:
+    - Container
+    - DynamicTable
     - DynamicTableRegion
     - VectorData
     - Data
