@@ -26,6 +26,6 @@ load_namespaces(ndx_nirs_specpath)
 
 OpticalSource = get_class('OpticalSource', 'ndx-nirs')
 OpticalDetector = get_class('OpticalDetector', 'ndx-nirs')
-Optode = get_class('Optode', 'ndx-nirs')
+# Optode = get_class('Optode', 'ndx-nirs')
 NIRSDevice = get_class('NIRSDevice', 'ndx-nirs')
 NIRSSeries = get_class('NIRSSeries', 'ndx-nirs')
