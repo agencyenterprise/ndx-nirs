@@ -86,62 +86,6 @@ def main():
             )
         ]
     )
-
-
-# instead of an Optode, let's just do a DynamicTable of channels. That will be easier.
-
-#     Optode = NWBGroupSpec(
-#         neurodata_type_def='Optode',
-#         neurodata_type_inc='NWBDataInterface',
-#         doc='A NIRS Optode comprised of a Source and Detector pair',
-#         links=[
-#             NWBLinkSpec(
-#                 name='source',
-#                 doc='A link to the optical source',
-#                 target_type='OpticalSource',
-#             ),
-#             NWBLinkSpec(
-#                 name='detector',
-#                 doc='A link to the optical detector',
-#                 target_type='OpticalDetector',
-#             ),            
-#         ],
-#         datasets=[
-#             NWBDatasetSpec(
-#                 name='x',
-#                 doc='The x coordinate of the optode',
-#                 dtype='float',
-#                 quantity='?'
-#             ),
-#             NWBDatasetSpec(
-#                 name='y',
-#                 doc='The y coordinate of the optode',
-#                 dtype='float',
-#                 quantity='?'
-#             ),
-#             NWBDatasetSpec(
-#                 name='z',
-#                 doc='The z coordinate of the optode',
-#                 dtype='float',
-#                 quantity='?'
-#             ),
-#             NWBDatasetSpec(
-#                 name='wavelengths',
-#                 doc='An array of wavelengths available for this source-detector pair',
-#                 shape=(None,),
-#                 dtype='float',
-#                 attributes=[
-#                     NWBAttributeSpec(
-#                         name='unit',
-#                         doc='The unit of measurement for the wavelengths',
-#                         dtype='text',
-#                         default_value='nm'
-#                     )
-#                 ]
-#             )
-#         ],
-#     )
-    
     
     NIRSDevice = NWBGroupSpec(
         neurodata_type_def='NIRSDevice',
@@ -178,7 +122,7 @@ def main():
     
     NIRSSeries = NWBGroupSpec(
         neurodata_type_def='NIRSSeries',
-        neurodata_type_inc='NWBDataInterface',
+        neurodata_type_inc='TimeSeries',
         doc='A timeseries of NIRS data',
         datasets=[
             NWBDatasetSpec(
@@ -193,7 +137,6 @@ def main():
     new_data_types = [
         OpticalSource,
         OpticalDetector,
-#         Optode,
         NIRSDevice,
         NIRSSeries
     ]
