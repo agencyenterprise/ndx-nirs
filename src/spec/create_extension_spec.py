@@ -49,7 +49,6 @@ def main():
     ns_builder.include_type("VectorData", namespace="hdmf-common")
     ns_builder.include_type("Data", namespace="hdmf-common")
     ns_builder.include_type("ElementIdentifiers", namespace="hdmf-common")
-
     ns_builder.include_type("Device", namespace="core")
 
     # TODO: define your new data types
