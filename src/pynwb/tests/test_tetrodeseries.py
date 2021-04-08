@@ -13,38 +13,35 @@ from ndx_nirs import TetrodeSeries
 
 def set_up_nwbfile():
     nwbfile = NWBFile(
-        session_description='session_description',
-        identifier='identifier',
-        session_start_time=datetime.datetime.now(datetime.timezone.utc)
+        session_description="session_description",
+        identifier="identifier",
+        session_start_time=datetime.datetime.now(datetime.timezone.utc),
     )
 
-    device = nwbfile.create_device(
-        name='device_name'
-    )
+    device = nwbfile.create_device(name="device_name")
 
     electrode_group = nwbfile.create_electrode_group(
-        name='electrode_group',
-        description='description',
-        location='location',
-        device=device
+        name="electrode_group",
+        description="description",
+        location="location",
+        device=device,
     )
 
-    for i in np.arange(10.):
+    for i in np.arange(10.0):
         nwbfile.add_electrode(
             x=i,
             y=i,
             z=i,
             imp=np.nan,
-            location='location',
-            filtering='filtering',
-            group=electrode_group
+            location="location",
+            filtering="filtering",
+            group=electrode_group,
         )
 
     return nwbfile
 
 
 class TestTetrodeSeriesConstructor(TestCase):
-
     def setUp(self):
         """Set up an NWB file. Necessary because TetrodeSeries requires references to electrodes."""
         self.nwbfile = set_up_nwbfile()
@@ -52,24 +49,23 @@ class TestTetrodeSeriesConstructor(TestCase):
     def test_constructor(self):
         """Test that the constructor for TetrodeSeries sets values as expected."""
         all_electrodes = self.nwbfile.create_electrode_table_region(
-            region=list(range(0, 10)),
-            description='all the electrodes'
+            region=list(range(0, 10)), description="all the electrodes"
         )
 
         data = np.random.rand(100, 3)
         tetrode_series = TetrodeSeries(
-            name='name',
-            description='description',
+            name="name",
+            description="description",
             data=data,
-            rate=1000.,
+            rate=1000.0,
             electrodes=all_electrodes,
-            trode_id=1
+            trode_id=1,
         )
 
-        self.assertEqual(tetrode_series.name, 'name')
-        self.assertEqual(tetrode_series.description, 'description')
+        self.assertEqual(tetrode_series.name, "name")
+        self.assertEqual(tetrode_series.description, "description")
         np.testing.assert_array_equal(tetrode_series.data, data)
-        self.assertEqual(tetrode_series.rate, 1000.)
+        self.assertEqual(tetrode_series.rate, 1000.0)
         self.assertEqual(tetrode_series.starting_time, 0)
         self.assertEqual(tetrode_series.electrodes, all_electrodes)
         self.assertEqual(tetrode_series.trode_id, 1)
@@ -80,7 +76,7 @@ class TestTetrodeSeriesRoundtrip(TestCase):
 
     def setUp(self):
         self.nwbfile = set_up_nwbfile()
-        self.path = 'test.nwb'
+        self.path = "test.nwb"
 
     def tearDown(self):
         remove_test_file(self.path)
@@ -91,28 +87,29 @@ class TestTetrodeSeriesRoundtrip(TestCase):
         file matches the original TetrodeSeries.
         """
         all_electrodes = self.nwbfile.create_electrode_table_region(
-            region=list(range(0, 10)),
-            description='all the electrodes'
+            region=list(range(0, 10)), description="all the electrodes"
         )
 
         data = np.random.rand(100, 3)
         tetrode_series = TetrodeSeries(
-            name='TetrodeSeries',
-            description='description',
+            name="TetrodeSeries",
+            description="description",
             data=data,
-            rate=1000.,
+            rate=1000.0,
             electrodes=all_electrodes,
-            trode_id=1
+            trode_id=1,
         )
 
         self.nwbfile.add_acquisition(tetrode_series)
 
-        with NWBHDF5IO(self.path, mode='w') as io:
+        with NWBHDF5IO(self.path, mode="w") as io:
             io.write(self.nwbfile)
 
-        with NWBHDF5IO(self.path, mode='r', load_namespaces=True) as io:
+        with NWBHDF5IO(self.path, mode="r", load_namespaces=True) as io:
             read_nwbfile = io.read()
-            self.assertContainerEqual(tetrode_series, read_nwbfile.acquisition['TetrodeSeries'])
+            self.assertContainerEqual(
+                tetrode_series, read_nwbfile.acquisition["TetrodeSeries"]
+            )
 
 
 class TestTetrodeSeriesRoundtripPyNWB(AcquisitionH5IOMixin, TestCase):
@@ -120,15 +117,13 @@ class TestTetrodeSeriesRoundtripPyNWB(AcquisitionH5IOMixin, TestCase):
 
     def setUpContainer(self):
         """ Return the test TetrodeSeries to read/write """
-        self.device = Device(
-            name='device_name'
-        )
+        self.device = Device(name="device_name")
 
         self.group = ElectrodeGroup(
-            name='electrode_group',
-            description='description',
-            location='location',
-            device=self.device
+            name="electrode_group",
+            description="description",
+            location="location",
+            device=self.device,
         )
 
         self.table = get_electrode_table()  # manually create a table of electrodes
@@ -138,27 +133,27 @@ class TestTetrodeSeriesRoundtripPyNWB(AcquisitionH5IOMixin, TestCase):
                 y=i,
                 z=i,
                 imp=np.nan,
-                location='location',
-                filtering='filtering',
+                location="location",
+                filtering="filtering",
                 group=self.group,
-                group_name='electrode_group'
+                group_name="electrode_group",
             )
 
         all_electrodes = DynamicTableRegion(
             data=list(range(0, 10)),
-            description='all the electrodes',
-            name='electrodes',
-            table=self.table
+            description="all the electrodes",
+            name="electrodes",
+            table=self.table,
         )
 
         data = np.random.rand(100, 3)
         tetrode_series = TetrodeSeries(
-            name='name',
-            description='description',
+            name="name",
+            description="description",
             data=data,
-            rate=1000.,
+            rate=1000.0,
             electrodes=all_electrodes,
-            trode_id=1
+            trode_id=1,
         )
         return tetrode_series
 
