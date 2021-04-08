@@ -1,5 +1,10 @@
 import os
-from pynwb import load_namespaces, get_class
+from pynwb import load_namespaces, get_class, register_class
+
+    
+from hdmf.common import DynamicTable
+from hdmf.utils import docval, call_docval_func, get_docval
+
 
 # Set path of the namespace.yaml file to the expected install location
 ndx_nirs_specpath = os.path.join(
@@ -24,7 +29,86 @@ load_namespaces(ndx_nirs_specpath)
 # TODO: import your classes here or define your class using get_class to make
 # them accessible at the package level
 
-OpticalSource = get_class('OpticalSource', 'ndx-nirs')
-OpticalDetector = get_class('OpticalDetector', 'ndx-nirs')
+
+def update_docval(overridden_fn, **kwargs):
+    """Take the docval from an existing function and update specified parameters"""
+    fn_docval = get_docval(overridden_fn)
+    for name, update_vals in kwargs.items():
+        for item in fn_docval:
+            if item['name'] == name:
+                item.update(update_vals)
+                break
+        else:
+            msg = 'docval item named {} does not exist for function {}'.format(name, overridden_fn.__name__)
+            raise ValueError(msg)
+    return fn_docval
+
+
+sources_docval = update_docval(
+    DynamicTable.__init__,
+    name={'default': 'NIRSSourcesTable'}, 
+    description={'default': 'A table describing optical sources of a NIRS device'}
+)
+
+@register_class('NIRSSourcesTable', 'ndx-nirs')
+class NIRSSourcesTable(DynamicTable):
+    """A DynamicTable representing the optical sources of this NIRS device"""
+    
+    __columns__ = (
+        dict(name='label', description='The label of the optical source'),
+        dict(name='x', description='The x coordinate of the optical source'),
+        dict(name='y', description='The y coordinate of the optical source'),
+        dict(name='z', description='The z coordinate of the optical source', required=False),
+    )
+    
+    @docval(*sources_docval)
+    def __init__(self, **kwargs):
+        call_docval_func(super().__init__, kwargs)
+    
+    
+detectors_docval = update_docval(
+    DynamicTable.__init__,
+    name={'default': 'NIRSDetectorsTable'}, 
+    description={'default': 'A table describing optical detectors of a NIRS device'}
+)
+    
+@register_class('NIRSDetectorsTable', 'ndx-nirs')
+class NIRSDetectorsTable(DynamicTable):
+    """A DynamicTable representing the optical detectors of this NIRS device"""
+    
+    __columns__ = (
+        dict(name='label', description='The label of the optical detector'),
+        dict(name='x', description='The x coordinate of the optical detector'),
+        dict(name='y', description='The y coordinate of the optical detector'),
+        dict(name='z', description='The z coordinate of the optical detector', required=False),
+    )
+
+    @docval(*detectors_docval)
+    def __init__(self, **kwargs):
+        call_docval_func(super().__init__, kwargs)
+
+
+channels_docval = update_docval(
+    DynamicTable.__init__,
+    name={'default': 'NIRSChannelsTable'}, 
+    description={'default': 'A table describing optical channels of a NIRS device'}
+)
+    
+@register_class('NIRSChannelsTable', 'ndx-nirs')
+class NIRSChannelsTable(DynamicTable):
+    """A DynamicTable representing the optical detectors of this NIRS device"""
+    
+    __columns__ = (
+        dict(name='label', description='The label of the channel', required=True),
+        dict(name='source', description='A reference to the optical source for this channel in NIRSSourcesTable', required=True, table=True),
+        dict(name='detector', description='A reference to the optical detector for this channel in NIRSDetectorsTable', required=True, table=True),
+        dict(name='wavelength', description='The wavelength of light for this channel in nm', required=True),
+    )
+
+    @docval(*channels_docval)
+    def __init__(self, **kwargs):
+        call_docval_func(super().__init__, kwargs)
+
+
 NIRSDevice = get_class('NIRSDevice', 'ndx-nirs')
 NIRSSeries = get_class('NIRSSeries', 'ndx-nirs')

@@ -23,5 +23,6 @@ namespaces:
     - DynamicTableRegion
     - VectorData
     - Data
+    - ElementIdentifiers
   - source: ndx-nirs.extensions.yaml
   version: 0.1.0

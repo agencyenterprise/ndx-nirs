@@ -1,7 +1,7 @@
 import os.path
 
 from pynwb.spec import (NWBNamespaceBuilder, export_spec, NWBGroupSpec,
-                        NWBDatasetSpec, NWBAttributeSpec, NWBLinkSpec, NWBRefSpec)
+                        NWBDatasetSpec, NWBAttributeSpec)
 # TODO: import the following spec classes as needed
 # from pynwb.spec import NWBDatasetSpec, NWBLinkSpec, NWBDtypeSpec, NWBRefSpec
 
@@ -32,6 +32,8 @@ def main():
     ns_builder.include_type('DynamicTableRegion', namespace='hdmf-common')
     ns_builder.include_type('VectorData', namespace='hdmf-common')
     ns_builder.include_type('Data', namespace='hdmf-common')
+    ns_builder.include_type("ElementIdentifiers", namespace="hdmf-common")
+    
     ns_builder.include_type('Device', namespace='core')
     
     # TODO: define your new data types
@@ -39,104 +41,168 @@ def main():
     # for more information
     
    
-    OpticalSource = NWBGroupSpec(
-        neurodata_type_def='OpticalSource',
-        neurodata_type_inc='NWBDataInterface',
-        doc='A NIRS Optical Source',
+    nirs_sources = NWBGroupSpec(
+        neurodata_type_def='NIRSSourcesTable',
+        neurodata_type_inc='DynamicTable',
+        name='sources',
+        doc='A table describing optical sources of a NIRS device',
         datasets=[
+            NWBDatasetSpec(
+                name='label',
+                doc='The label of the source',
+                dtype='text',
+                shape=(None,),
+                neurodata_type_inc='VectorData',
+            ),
             NWBDatasetSpec(
                 name='x',
                 doc='The x coordinate of the optical source',
                 dtype='float',
+                shape=(None,),
+                neurodata_type_inc='VectorData',
             ),
             NWBDatasetSpec(
                 name='y',
                 doc='The y coordinate of the optical source',
                 dtype='float',
+                shape=(None,),
+                neurodata_type_inc='VectorData',
             ),
             NWBDatasetSpec(
                 name='z',
                 doc='The z coordinate of the optical source',
                 dtype='float',
+                shape=(None,),
+                neurodata_type_inc='VectorData',
                 quantity='?'
             )
         ]
     )
 
-    OpticalDetector = NWBGroupSpec(
-        neurodata_type_def='OpticalDetector',
-        neurodata_type_inc='NWBDataInterface',
-        doc='A NIRS Optical Detector',
+    nirs_detectors = NWBGroupSpec(
+        neurodata_type_def='NIRSDetectorsTable',
+        neurodata_type_inc='DynamicTable',
+        name='detectors',
+        doc='A table describing optical detectors of a NIRS device',
         datasets=[
+            NWBDatasetSpec(
+                name='label',
+                doc='The label of the detector',
+                dtype='text',
+                shape=(None,),
+                neurodata_type_inc='VectorData',
+            ),
             NWBDatasetSpec(
                 name='x',
                 doc='The x coordinate of the optical detector',
                 dtype='float',
+                shape=(None,),
+                neurodata_type_inc='VectorData',
             ),
             NWBDatasetSpec(
                 name='y',
                 doc='The y coordinate of the optical detector',
                 dtype='float',
+                shape=(None,),
+                neurodata_type_inc='VectorData',
             ),
             NWBDatasetSpec(
                 name='z',
                 doc='The z coordinate of the optical detector',
                 dtype='float',
+                shape=(None,),
+                neurodata_type_inc='VectorData',
                 quantity='?'
             )
         ]
     )
     
-    NIRSDevice = NWBGroupSpec(
+    nirs_channels = NWBGroupSpec(
+        neurodata_type_def='NIRSChannelsTable',
+        neurodata_type_inc='DynamicTable',
+        name='channels',
+        doc='A table describing optical channels of a NIRS device',
+        datasets=[
+            NWBDatasetSpec(
+                name='label',
+                doc='The label of the channel',
+                dtype='text',
+                shape=(None,),
+                neurodata_type_inc='VectorData',
+            ),
+            NWBDatasetSpec(
+                name='source',
+                doc='A reference to the optical source for this channel in NIRSSourcesTable',
+                shape=(None,),
+                neurodata_type_inc='DynamicTableRegion',
+            ),
+            NWBDatasetSpec(
+                name='detector',
+                doc='A reference to the optical detector for this channel in NIRSDetectorsTable',
+                shape=(None,),
+                neurodata_type_inc='DynamicTableRegion',
+            ),
+            NWBDatasetSpec(
+                name='wavelength',
+                doc='The wavelength of light for this channel in nm',
+                dtype='float',
+                shape=(None,),
+                neurodata_type_inc='VectorData',
+                attributes=[
+                    NWBAttributeSpec(
+                        name='unit',
+                        doc='The unit of measurement for the wavelength',
+                        dtype='text',
+                        value='nm'
+                    )
+                ],
+            ),
+        ]
+    )
+    
+    nirs_device = NWBGroupSpec(
         neurodata_type_def='NIRSDevice',
         neurodata_type_inc='Device',
         doc='A NIRS Device',
         groups=[
             NWBGroupSpec(
-                neurodata_type_inc='DynamicTable',
                 name='channels',
-                doc='A table of the optical channels available on this device'
+                doc='A table of the optical channels available on this device',
+                neurodata_type_inc='NIRSChannelsTable',
             ),
             NWBGroupSpec(
-                neurodata_type_inc='OpticalSource',
-                doc='The OpticalSources of this device',
-                quantity='+'
+                name='sources',
+                doc='The optical sources of this device',
+                neurodata_type_inc='NIRSSourcesTable',
             ),
             NWBGroupSpec(
-                neurodata_type_inc='OpticalDetector',
-                doc='The OpticalDetectors of this device',
-                quantity='+'
-            )
-        ],
-        attributes=[
-            NWBAttributeSpec(
-                name='wavelength_unit',
-                doc='The unit of measurement for the wavelength channel column',
-                dtype='text',
-                default_value='nm'
+                name='detectors',
+                doc='The optical detectors of this device',
+                neurodata_type_inc='NIRSDetectorsTable',
             )
         ]
     )
     
-    NIRSSeries = NWBGroupSpec(
+    nirs_series = NWBGroupSpec(
         neurodata_type_def='NIRSSeries',
         neurodata_type_inc='TimeSeries',
         doc='A timeseries of NIRS data',
         datasets=[
             NWBDatasetSpec(
-                neurodata_type_inc='DynamicTableRegion',
                 name='channels',
-                doc='DynamicTableRegion pointer to the optical channels represented by this NIRSSeries',
+                doc='DynamicTableRegion reference to the optical channels represented by this NIRSSeries',
+                neurodata_type_inc='DynamicTableRegion',
             )
         ]
     )
 
     # TODO: add all of your new data types to this list
     new_data_types = [
-        OpticalSource,
-        OpticalDetector,
-        NIRSDevice,
-        NIRSSeries
+        nirs_sources,
+        nirs_detectors,
+        nirs_channels,
+        nirs_device,
+        nirs_series
     ]
 
     # export the spec to yaml files in the spec folder
