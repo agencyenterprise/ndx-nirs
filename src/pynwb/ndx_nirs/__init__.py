@@ -1,4 +1,5 @@
 import os
+from copy import deepcopy
 from pynwb import load_namespaces, get_class, register_class
 
 
@@ -33,10 +34,11 @@ load_namespaces(ndx_nirs_specpath)
 
 
 def update_docval(overridden_fn, **kwargs):
-    """Take the docval from an existing function and update specified parameters"""
-    fn_docval = get_docval(overridden_fn)
+    """Copy the docval from an existing function and update specified parameters"""
+    original_docval = get_docval(overridden_fn)
+    new_docval = deepcopy(original_docval)
     for name, update_vals in kwargs.items():
-        for item in fn_docval:
+        for item in new_docval:
             if item["name"] == name:
                 item.update(update_vals)
                 break
@@ -45,7 +47,7 @@ def update_docval(overridden_fn, **kwargs):
                 name, overridden_fn.__name__
             )
             raise ValueError(msg)
-    return fn_docval
+    return new_docval
 
 
 sources_docval = update_docval(

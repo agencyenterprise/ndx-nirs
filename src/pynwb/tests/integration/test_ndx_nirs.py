@@ -84,9 +84,7 @@ def create_fake_nirs_device():
 def create_fake_nirs_series(device):
     channels = device.channels
     fake_timeseries = np.arange(0, 100, 0.05)  # in seconds
-    fake_data = np.random.rand(
-        len(fake_timeseries), len(channels)
-    )
+    fake_data = np.random.rand(len(fake_timeseries), len(channels))
 
     return NIRSSeries(
         name="nirs_data",
