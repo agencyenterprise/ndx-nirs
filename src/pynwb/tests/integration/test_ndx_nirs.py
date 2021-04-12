@@ -120,6 +120,6 @@ class NIRSIntegrationTests(TestCase):
         with NWBHDF5IO(self.path, "r") as io:
             read_nwb = io.read()
             self.assertContainerEqual(self.nwb, read_nwb)
-            device = read_nwb.devices['device']
+            device = read_nwb.devices["device"]
             self.assertIs(device.channels.source.table, device.sources)
             self.assertIs(device.channels.detector.table, device.detectors)

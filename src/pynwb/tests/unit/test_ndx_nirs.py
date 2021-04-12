@@ -117,12 +117,14 @@ def create_fake_sources_table():
         table.add_row({"label": f"S{n+1}", "x": (n % 4) - 1.5, "y": (n % 3) - 1.0})
     return table
 
+
 def create_fake_detectors_table():
     """Returns a NIRSDetectorsTable which can be used for testing"""
     table = NIRSDetectorsTable()
     for n in range(4):
         table.add_row({"label": f"D{n+1}", "x": (n % 2) + 0.5, "y": n - 3.5})
     return table
+
 
 def create_fake_channels_table():
     """Returns a NIRSChannelsTable which can be used for testing"""
@@ -173,32 +175,38 @@ class TestNIRSChannelsTable(TestCase):
 
     def test_add_row_with_the_correct_columns_provided(self):
         """Verify that add_row correctly adds a row when the correct columns are provided"""
-        table = NIRSChannelsTable(create_fake_sources_table(), create_fake_detectors_table())
+        table = NIRSChannelsTable(
+            create_fake_sources_table(), create_fake_detectors_table()
+        )
         table.add_row(label="foo", source=6, detector=1, wavelength=123.5)
 
         self.assertEqual(len(table), 1)
         self.assertEqual(table.label[0], "foo")
-        expected_source = pd.DataFrame(dict(label='S7', x=0.5, y=-1.0), index=pd.Index([6], name='id'))
+        expected_source = pd.DataFrame(
+            dict(label="S7", x=0.5, y=-1.0), index=pd.Index([6], name="id")
+        )
         pd.testing.assert_frame_equal(table.source[0], expected_source)
-        expected_detector = pd.DataFrame(dict(label='D2', x=1.5, y=-2.5), index=pd.Index([1], name='id'))
+        expected_detector = pd.DataFrame(
+            dict(label="D2", x=1.5, y=-2.5), index=pd.Index([1], name="id")
+        )
         pd.testing.assert_frame_equal(table.detector[0], expected_detector)
         self.assertEqual(table.wavelength[0], 123.5)
 
 
 class TestNIRSDevice(TestCase):
     """Unit tests for NIRSDevice"""
-    
+
     def test_initialization(self):
         """Verify that fields are correctly defined after initialization"""
         channels = create_fake_channels_table()
         device = NIRSDevice(
             name="test_device",
-            description='Foo',
+            description="Foo",
             channels=channels,
             sources=channels.source.table,
-            detectors=channels.detector.table
+            detectors=channels.detector.table,
         )
-        self.assertEqual(device.name, 'test_device')
+        self.assertEqual(device.name, "test_device")
         self.assertIs(device.channels, channels)
         self.assertIs(device.sources, channels.source.table)
         self.assertIs(device.detectors, channels.detector.table)
