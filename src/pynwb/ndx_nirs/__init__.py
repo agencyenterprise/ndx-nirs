@@ -4,7 +4,7 @@ from pynwb import load_namespaces, get_class, register_class
 
 
 from hdmf.common import DynamicTable
-from hdmf.utils import docval, call_docval_func, get_docval
+from hdmf.utils import docval, call_docval_func, get_docval, getargs, popargs
 
 
 # Set path of the namespace.yaml file to the expected install location
@@ -104,16 +104,20 @@ class NIRSDetectorsTable(DynamicTable):
         call_docval_func(super().__init__, kwargs)
 
 
-channels_docval = update_docval(
-    DynamicTable.__init__,
-    name={"default": "NIRSChannelsTable"},
-    description={"default": "A table describing optical channels of a NIRS device"},
-)
+channels_docval = [
+    {'name': 'sources', 'type': NIRSSourcesTable, 'doc': 'The table that is referenced by the source column', 'default': None},
+    {'name': 'detectors', 'type': NIRSDetectorsTable, 'doc': 'The table that is referenced by the detector column', 'default': None},
+    *update_docval(
+        DynamicTable.__init__,
+        name={"default": "NIRSChannelsTable"},
+        description={"default": "A table describing optical channels of a NIRS device"},
+    )
+]
 
 
 @register_class("NIRSChannelsTable", "ndx-nirs")
 class NIRSChannelsTable(DynamicTable):
-    """A DynamicTable representing the optical detectors of this NIRS device"""
+    """A DynamicTable representing the optical channels of this NIRS device"""
 
     __columns__ = (
         dict(name="label", description="The label of the channel", required=True),
@@ -138,7 +142,23 @@ class NIRSChannelsTable(DynamicTable):
 
     @docval(*channels_docval)
     def __init__(self, **kwargs):
+        sources = popargs('sources', kwargs)
+        detectors = popargs('detectors', kwargs)
         call_docval_func(super().__init__, kwargs)
+        self.source.table = sources
+        self.detector.table = detectors
+
+    @docval({'name': 'sources', 'type': NIRSSourcesTable, 'doc': 'The table that is referenced by the source column'})
+    def set_sources_table(self, **kwargs):
+        """Assigns the NIRSourcesTable which should be referenced by the source column"""
+        sources = getargs('sources', kwargs)
+        self.source.table = sources
+
+    @docval({'name': 'detectors', 'type': NIRSDetectorsTable, 'doc': 'The table that is referenced by the detector column'})
+    def set_detectors_table(self, **kwargs):
+        """Assigns the NIRDetectorsTable which should be referenced by the detector column"""
+        detectors = getargs('detectors', kwargs)
+        self.detector.table = detectors
 
 
 NIRSDevice = get_class("NIRSDevice", "ndx-nirs")

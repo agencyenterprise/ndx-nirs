@@ -52,7 +52,7 @@ def create_fake_channels_table():
     sources = create_fake_sources_table()
     detectors = create_fake_detectors_table()
     source_detector_pairs = [(0, 0), (0, 1), (1, 1), (1, 2)]
-    table = NIRSChannelsTable()
+    table = NIRSChannelsTable(sources, detectors)
     ch_id = 0
     for source_idx, detector_idx in source_detector_pairs:
         for wavelength in [690.0, 830.0]:
@@ -63,8 +63,6 @@ def create_fake_channels_table():
                 wavelength=wavelength,
             )
             ch_id += 1
-    table.source.table = sources
-    table.detector.table = detectors
     return table
 
 
@@ -122,3 +120,6 @@ class NIRSIntegrationTests(TestCase):
         with NWBHDF5IO(self.path, "r") as io:
             read_nwb = io.read()
             self.assertContainerEqual(self.nwb, read_nwb)
+            device = read_nwb.devices['device']
+            self.assertIs(device.channels.source.table, device.sources)
+            self.assertIs(device.channels.detector.table, device.detectors)
