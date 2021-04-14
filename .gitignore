@@ -114,3 +114,6 @@ venv.bak/
 
 # Mac finder
 .DS_Store
+
+# Visual Studio Code
+.vscode/

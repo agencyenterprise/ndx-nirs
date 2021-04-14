@@ -1,8 +1,114 @@
 groups:
-- neurodata_type_def: TetrodeSeries
-  neurodata_type_inc: ElectricalSeries
-  doc: An extension of ElectricalSeries to include the tetrode ID for each time series.
-  attributes:
-  - name: trode_id
-    dtype: int32
-    doc: The tetrode ID.
+- neurodata_type_def: NIRSSourcesTable
+  neurodata_type_inc: DynamicTable
+  name: sources
+  doc: A table describing optical sources of a NIRS device
+  datasets:
+  - name: label
+    neurodata_type_inc: VectorData
+    dtype: text
+    shape:
+    - null
+    doc: The label of the source
+  - name: x
+    neurodata_type_inc: VectorData
+    dtype: float
+    shape:
+    - null
+    doc: The x coordinate of the optical source
+  - name: y
+    neurodata_type_inc: VectorData
+    dtype: float
+    shape:
+    - null
+    doc: The y coordinate of the optical source
+  - name: z
+    neurodata_type_inc: VectorData
+    dtype: float
+    shape:
+    - null
+    doc: The z coordinate of the optical source
+    quantity: '?'
+- neurodata_type_def: NIRSDetectorsTable
+  neurodata_type_inc: DynamicTable
+  name: detectors
+  doc: A table describing optical detectors of a NIRS device
+  datasets:
+  - name: label
+    neurodata_type_inc: VectorData
+    dtype: text
+    shape:
+    - null
+    doc: The label of the detector
+  - name: x
+    neurodata_type_inc: VectorData
+    dtype: float
+    shape:
+    - null
+    doc: The x coordinate of the optical detector
+  - name: y
+    neurodata_type_inc: VectorData
+    dtype: float
+    shape:
+    - null
+    doc: The y coordinate of the optical detector
+  - name: z
+    neurodata_type_inc: VectorData
+    dtype: float
+    shape:
+    - null
+    doc: The z coordinate of the optical detector
+    quantity: '?'
+- neurodata_type_def: NIRSChannelsTable
+  neurodata_type_inc: DynamicTable
+  name: channels
+  doc: A table describing optical channels of a NIRS device
+  datasets:
+  - name: label
+    neurodata_type_inc: VectorData
+    dtype: text
+    shape:
+    - null
+    doc: The label of the channel
+  - name: source
+    neurodata_type_inc: DynamicTableRegion
+    shape:
+    - null
+    doc: A reference to the optical source for this channel in NIRSSourcesTable
+  - name: detector
+    neurodata_type_inc: DynamicTableRegion
+    shape:
+    - null
+    doc: A reference to the optical detector for this channel in NIRSDetectorsTable
+  - name: wavelength
+    neurodata_type_inc: VectorData
+    dtype: float
+    shape:
+    - null
+    doc: The wavelength of light for this channel in nm
+    attributes:
+    - name: unit
+      dtype: text
+      value: nm
+      doc: The unit of measurement for the wavelength
+- neurodata_type_def: NIRSDevice
+  neurodata_type_inc: Device
+  doc: A NIRS Device
+  groups:
+  - name: channels
+    neurodata_type_inc: NIRSChannelsTable
+    doc: A table of the optical channels available on this device
+  - name: sources
+    neurodata_type_inc: NIRSSourcesTable
+    doc: The optical sources of this device
+  - name: detectors
+    neurodata_type_inc: NIRSDetectorsTable
+    doc: The optical detectors of this device
+- neurodata_type_def: NIRSSeries
+  neurodata_type_inc: TimeSeries
+  doc: A timeseries of NIRS data
+  datasets:
+  - name: channels
+    neurodata_type_inc: DynamicTableRegion
+    doc: DynamicTableRegion reference to the optical channels represented by this
+      NIRSSeries
