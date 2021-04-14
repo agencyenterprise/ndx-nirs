@@ -26,7 +26,7 @@ setup_args = {
     "description": "An NWB extension for storing Near-Infrared Spectroscopy (NIRS) data",
     "long_description": readme,
     "long_description_content_type": readme_type,
-    "author": "Sumner Norman,Darin Erat Sleiter,José Ribeiro",
+    "author": "Sumner L Norman,Darin Erat Sleiter,José Ribeiro",
     "author_email": "sumner@ae.studio,darin@ae.studio,jose@ae.studio",
     "url": "",
     "license": "BSD 3-Clause",

@@ -21,7 +21,7 @@ def main():
         author=list(
             map(
                 str.strip,
-                """Sumner Norman,Darin Erat Sleiter,José Ribeiro""".split(","),
+                """Sumner L Norman,Darin Erat Sleiter,José Ribeiro""".split(","),
             )
         ),
         contact=list(

@@ -3,7 +3,6 @@ import tempfile
 from os import path
 
 import numpy as np
-import pytz
 
 from pynwb import NWBHDF5IO
 from pynwb.file import NWBFile, Subject
@@ -23,7 +22,9 @@ def setup_nwbfile():
     nwbfile = NWBFile(
         session_description="A test NWB NIRS file",
         identifier="nirs_test",
-        session_start_time=datetime.datetime(2021, 4, 1, 15, 0, 0, tzinfo=pytz.UTC),
+        session_start_time=datetime.datetime(
+            2021, 4, 1, 15, 0, 0, tzinfo=datetime.timezone.utc
+        ),
         subject=Subject(subject_id="X"),
     )
 

@@ -18,8 +18,8 @@
 # -- Project information -----------------------------------------------------
 
 project = "ndx-nirs"
-copyright = "2021, Sumner Norman,Darin Erat Sleiter,José Ribeiro"
-author = "Sumner Norman,Darin Erat Sleiter,José Ribeiro"
+copyright = "2021, Sumner L Norman,Darin Erat Sleiter,José Ribeiro"
+author = "Sumner L Norman,Darin Erat Sleiter,José Ribeiro"
 
 # The short X.Y version
 version = "0.1.0"
