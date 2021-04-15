@@ -221,7 +221,7 @@ def main():
             NWBAttributeSpec(
                 name="time_delay",
                 doc=(
-                    "The time delay in µs used for gated time domain NIRS. Only used"
+                    "The time delay in ns used for gated time domain NIRS. Only used"
                     " if nirs_mode is a type of gated time domain spectroscopy."
                 ),
                 dtype="float",
@@ -230,7 +230,7 @@ def main():
             NWBAttributeSpec(
                 name="time_delay_width",
                 doc=(
-                    "The time delay width in µs used for gated time domain NIRS. Only"
+                    "The time delay width in ns used for gated time domain NIRS. Only"
                     " used if nirs_mode is a type of gated time domain spectroscopy."
                 ),
                 dtype="float",
@@ -239,7 +239,7 @@ def main():
             NWBAttributeSpec(
                 name="correlation_time_delay",
                 doc=(
-                    "The correlation time delay in µs for diffuse correlation"
+                    "The correlation time delay in ns for diffuse correlation"
                     " spectroscopy NIRS. Only used if nirs_mode is a type of diffuse"
                     " correlation spectroscopy."
                 ),
@@ -249,7 +249,7 @@ def main():
             NWBAttributeSpec(
                 name="correlation_time_delay_width",
                 doc=(
-                    "The correlation time delay width in µs for diffuse correlation"
+                    "The correlation time delay width in ns for diffuse correlation"
                     " spectroscopy NIRS. Only used if nirs_mode is a type of diffuse"
                     " correlation spectroscopy."
                 ),
