@@ -1,10 +1,8 @@
-import pytest
 import pandas as pd
 import numpy as np
 
 from pynwb.testing import TestCase
-from hdmf.utils import get_docval
-from hdmf.common import DynamicTable, DynamicTableRegion
+from hdmf.common import DynamicTableRegion
 
 from ndx_nirs import (
     NIRSSourcesTable,
@@ -12,36 +10,7 @@ from ndx_nirs import (
     NIRSChannelsTable,
     NIRSDevice,
     NIRSSeries,
-    update_docval,
 )
-
-
-def test_update_docval_does_not_modify_original_docval():
-    """Verify that update_docval does not modify the original fn docval"""
-    original_docval = get_docval(DynamicTable.__init__)
-    _ = update_docval(DynamicTable.__init__, name={"default": "FOO"})
-    assert "default" not in original_docval[0]
-
-
-def test_update_docval_correctly_updates_fields():
-    """Verify that update_docval correctly updates the new docval"""
-    new_docval = update_docval(
-        DynamicTable.__init__,
-        name={"default": "FOO", "miscfield": "xyz"},
-        description={"required": False},
-    )
-    assert new_docval[0]["default"] == "FOO"
-    assert new_docval[0]["miscfield"] == "xyz"
-    assert not new_docval[1]["required"]
-
-
-def test_update_docval_raises_error_if_parameter_does_not_exist():
-    """Verify that update_docval raises a ValueError if the parameter doesn't exist"""
-    with pytest.raises(ValueError):
-        _ = update_docval(
-            DynamicTable.__init__,
-            foo={"default": "bar"},
-        )
 
 
 class TestNIRSSourcesTable(TestCase):
@@ -131,7 +100,7 @@ def create_fake_channels_table():
     sources = create_fake_sources_table()
     detectors = create_fake_detectors_table()
     source_detector_pairs = [(n, n % 5) for n in range(7)]
-    table = NIRSChannelsTable(sources, detectors)
+    table = NIRSChannelsTable(target_tables={'sources': sources, 'detectors': detectors})
     ch_id = 0
     for source_idx, detector_idx in source_detector_pairs:
         for wavelength in [690.0, 830.0]:
@@ -152,31 +121,28 @@ class TestNIRSChannelsTable(TestCase):
         """Verify that the table can be instantiated and assigns source and detector tables"""
         sources = create_fake_sources_table()
         detectors = create_fake_detectors_table()
-        table = NIRSChannelsTable(sources, detectors)
+        table = NIRSChannelsTable(target_tables={'sources': sources, 'detectors': detectors})
 
         self.assertEqual(table.name, "NIRSChannelsTable")
         self.assertIsInstance(table.description, str)
         self.assertIs(table.source.table, sources)
         self.assertIs(table.detector.table, detectors)
 
-    def test_set_sources_table(self):
+    def test_set_reference_table(self):
         """Verify that the sources table can be set after instantiation"""
-        table = NIRSChannelsTable()
         sources = create_fake_sources_table()
-        table.set_sources_table(sources)
-        self.assertIs(table.source.table, sources)
-
-    def test_set_detectors_table(self):
-        """Verify that the sources table can be set after instantiation"""
-        table = NIRSChannelsTable()
         detectors = create_fake_detectors_table()
-        table.set_detectors_table(detectors)
+        table = NIRSChannelsTable(target_tables={'sources': sources, 'detectors': detectors})
+        self.assertIs(table.source.table, sources)
         self.assertIs(table.detector.table, detectors)
 
     def test_add_row_with_the_correct_columns_provided(self):
         """Verify that add_row correctly adds a row when the correct columns are provided"""
         table = NIRSChannelsTable(
-            create_fake_sources_table(), create_fake_detectors_table()
+            target_tables={
+                'sources': create_fake_sources_table(),
+                'detectors': create_fake_detectors_table()
+            }
         )
         table.add_row(label="foo", source=6, detector=1, wavelength=123.5)
 

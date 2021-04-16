@@ -1,8 +1,14 @@
 groups:
 - neurodata_type_def: NIRSSourcesTable
   neurodata_type_inc: DynamicTable
-  name: sources
+  default_name: NIRSSourcesTable
   doc: A table describing optical sources of a NIRS device
+  attributes:
+  - name: description
+    dtype: text
+    default_value: A table describing the optical sources of the device.
+    doc: description
+    required: false
   datasets:
   - name: label
     neurodata_type_inc: VectorData
@@ -31,8 +37,14 @@ groups:
     quantity: '?'
 - neurodata_type_def: NIRSDetectorsTable
   neurodata_type_inc: DynamicTable
-  name: detectors
+  default_name: NIRSDetectorsTable
   doc: A table describing optical detectors of a NIRS device
+  attributes:
+  - name: description
+    dtype: text
+    default_value: A table describing the optical detectors of the device.
+    doc: description
+    required: false
   datasets:
   - name: label
     neurodata_type_inc: VectorData
@@ -63,6 +75,12 @@ groups:
   neurodata_type_inc: DynamicTable
   name: channels
   doc: A table describing optical channels of a NIRS device
+  attributes:
+  - name: description
+    dtype: text
+    default_value: A table describing the optical channels of the device.
+    doc: description
+    required: false
   datasets:
   - name: label
     neurodata_type_inc: VectorData

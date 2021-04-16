@@ -8,9 +8,6 @@ from pynwb.spec import (
     NWBAttributeSpec,
 )
 
-# TODO: import the following spec classes as needed
-# from pynwb.spec import NWBDatasetSpec, NWBLinkSpec, NWBDtypeSpec, NWBRefSpec
-
 
 def main():
     # these arguments were auto-generated from your cookiecutter inputs
@@ -58,7 +55,7 @@ def main():
     nirs_sources = NWBGroupSpec(
         neurodata_type_def="NIRSSourcesTable",
         neurodata_type_inc="DynamicTable",
-        name="sources",
+        default_name="NIRSSourcesTable",
         doc="A table describing optical sources of a NIRS device",
         datasets=[
             NWBDatasetSpec(
@@ -91,12 +88,20 @@ def main():
                 quantity="?",
             ),
         ],
+        attributes=[
+            NWBAttributeSpec(
+                name="description",
+                dtype="text",
+                doc="description",
+                default_value="A table describing the optical sources of the device."
+            )
+        ]
     )
 
     nirs_detectors = NWBGroupSpec(
         neurodata_type_def="NIRSDetectorsTable",
         neurodata_type_inc="DynamicTable",
-        name="detectors",
+        default_name="NIRSDetectorsTable",
         doc="A table describing optical detectors of a NIRS device",
         datasets=[
             NWBDatasetSpec(
@@ -129,6 +134,14 @@ def main():
                 quantity="?",
             ),
         ],
+        attributes=[
+            NWBAttributeSpec(
+                name="description",
+                dtype="text",
+                doc="description",
+                default_value="A table describing the optical detectors of the device."
+            )
+        ]
     )
 
     nirs_channels = NWBGroupSpec(
@@ -172,6 +185,14 @@ def main():
                 ],
             ),
         ],
+        attributes=[
+            NWBAttributeSpec(
+                name="description",
+                dtype="text",
+                doc="description",
+                default_value="A table describing the optical channels of the device."
+            )
+        ]
     )
 
     nirs_device = NWBGroupSpec(

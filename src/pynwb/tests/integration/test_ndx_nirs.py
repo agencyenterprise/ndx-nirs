@@ -53,7 +53,7 @@ def create_fake_channels_table():
     sources = create_fake_sources_table()
     detectors = create_fake_detectors_table()
     source_detector_pairs = [(0, 0), (0, 1), (1, 1), (1, 2)]
-    table = NIRSChannelsTable(sources, detectors)
+    table = NIRSChannelsTable(target_tables={'sources': sources, 'detectors': detectors})
     ch_id = 0
     for source_idx, detector_idx in source_detector_pairs:
         for wavelength in [690.0, 830.0]:
