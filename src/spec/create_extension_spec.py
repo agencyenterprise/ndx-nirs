@@ -202,10 +202,12 @@ def main():
             NWBAttributeSpec(
                 name="nirs_mode",
                 doc=(
-                    "The mode of NIRS measurement performed with this device (e.g."
-                    " continuous-wave, frequency-domain, time-domain,"
-                    " time-domain-moments, diffuse-correlation-spectroscopy,"
-                    " continuous-wave-fluorescence, etc)"
+                    "The mode of NIRS measurement performed with this device."
+                    " Examples include (but are not limited to) continuous-wave,"
+                    " frequency-domain, time-domain, time-domain-moments,"
+                    " diffuse-correlation-spectroscopy, continuous-wave-fluorescence,"
+                    " and diffuse-optical-tomography, as well as variants including"
+                    " fluorescence."
                 ),
                 dtype="text",
             ),

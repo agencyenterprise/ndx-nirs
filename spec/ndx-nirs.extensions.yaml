@@ -114,9 +114,10 @@ groups:
   attributes:
   - name: nirs_mode
     dtype: text
-    doc: The mode of NIRS measurement performed with this device (e.g. continuous-wave,
-      frequency-domain, time-domain, time-domain-moments, diffuse-correlation-spectroscopy,
-      continuous-wave-fluorescence, etc)
+    doc: The mode of NIRS measurement performed with this device. Examples include
+      (but are not limited to) continuous-wave, frequency-domain, time-domain, time-domain-moments,
+      diffuse-correlation-spectroscopy, continuous-wave-fluorescence, and diffuse-optical-tomography,
+      as well as variants including fluorescence.
   - name: frequency
     dtype: float
     doc: The modulation frequency in Hz used for frequency domain NIRS. if nirs_mode
@@ -124,23 +125,23 @@ groups:
     required: false
   - name: time_delay
     dtype: float
-    doc: "The time delay in \xB5s used for gated time domain NIRS. Only used if nirs_mode\
-      \ is a type of gated time domain spectroscopy."
+    doc: The time delay in ns used for gated time domain NIRS. Only used if nirs_mode
+      is a type of gated time domain spectroscopy.
     required: false
   - name: time_delay_width
     dtype: float
-    doc: "The time delay width in \xB5s used for gated time domain NIRS. Only used\
-      \ if nirs_mode is a type of gated time domain spectroscopy."
+    doc: The time delay width in ns used for gated time domain NIRS. Only used if
+      nirs_mode is a type of gated time domain spectroscopy.
     required: false
   - name: correlation_time_delay
     dtype: float
-    doc: "The correlation time delay in \xB5s for diffuse correlation spectroscopy\
-      \ NIRS. Only used if nirs_mode is a type of diffuse correlation spectroscopy."
+    doc: The correlation time delay in ns for diffuse correlation spectroscopy NIRS.
+      Only used if nirs_mode is a type of diffuse correlation spectroscopy.
     required: false
   - name: correlation_time_delay_width
     dtype: float
-    doc: "The correlation time delay width in \xB5s for diffuse correlation spectroscopy\
-      \ NIRS. Only used if nirs_mode is a type of diffuse correlation spectroscopy."
+    doc: The correlation time delay width in ns for diffuse correlation spectroscopy
+      NIRS. Only used if nirs_mode is a type of diffuse correlation spectroscopy.
     required: false
   - name: additional_parameters
     dtype: text
