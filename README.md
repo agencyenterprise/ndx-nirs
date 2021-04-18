@@ -1,16 +1,72 @@
 # ndx-nirs Extension for NWB
 
-**WIP**
+This is an NWB extension for storing and sharing near-infrared spectroscopy (NIRS) data. 
 
-_ideas to include_:
-* purpose of the extension
-  * bring NIRS into nwb
-  * interoperability with tools, etc
-* modes of nirs that it is compatible with
-* based off of SNIRF
-  * expect to release conversion tool
-* main architecture
+## Introduction to NIRS
 
+NIRS uses near-infrared sources (from 780 nm to 2500 nm) to assess brain function by detecting changes in blood hemoglobin concentrations. 
+
+As neural activity changes, blood volume in the local area changes through the neurovascular coupling phenomenon. NIRS techniques requires optical sources with two or more wavelengths in the near-infrared spectrum. One must have a wavelength above and one below the isosbestic point of 810 nm - the point at which deoxy-Hb and oxy-Hb have identical absorption coefficients. Using the modified Beer-Lambert law (mBLL), NIRS techniques reveal  changes in hemoglobin concentration. NIRS monitors hemoglobin levels through these optical absorption coefficients as a proxy for localized brain activity.
+
+## Purpose of the extension
+
+The user-base of NIRS techniques continues to grow. In addition, NIRS techniques are often used in conjunction with other brain recording techniques (e.g. EEG) and/or use common stimuli or behavioral paradigms. The NWB NIRS extension provides a data standard for neuroscientist to share, archive, use, and build analysis tools for NIRS data. 
+
+Integration of NIRS into the NWB data standard affords all NIRS users interoperability with many of the data storage, processing, analysis, and visualization tools already integrated within NWB. 
+
+## Modes of NIRS currently supported
+
+This extenstion currently explicitly supports: 
+
+1. Continuous Wave
+    - see `NIRSDevice.nirs_mode` 
+2. Frequency Domain
+    - see `NIRSDevice.nirs_mode` and `NIRSDevice.frequency`
+3. Time-Domain 
+    - see `NIRSDevice.nirs_mode`, `NIRSDevice.time_delay`, and `NIRSDevice.time_delay_width`
+4. Diffuse Correlation Spectroscopy
+    - see `NIRSDevice.nirs_mode`, `NIRSDevice.correlation_time_delay`, and `NIRSDevice.correlation_time_delay_width`
+
+In addition, it includes support for fluorescent versions of each of these techniques.
+
+We acknowledge that NIRS is a fast-growing recording method with new modalities constantly under development. For this reason, it is possible to define other useful parameters using the `NIRSDevice.additional_parameters` field. Future version of NWB NIRS will add native support for new NIRS modalities.
+
+## Other data standards 
+
+The NWB NIRS neurodata type was inspired by the [SNIRF](https://fnirs.org/resources/software/snirf/) data specification ([Github](https://github.com/fNIRS/snirf)). Many of the data fields can be directly mapped from SNIRF to NWB and vice-versa. We expect to release a SNIRF<->NWB conversion tool in the near future to improve compatibility between data standards and ease the burden of conversion on NIRS researchers.
+
+## NWB NIRS data architecture
+
+1. ``NIRSSourcesTable`` stores rows for each optical source of a NIRS device. ``NIRSSourcesTable`` includes:
+    - ``label`` - the label of the source
+    - ``x``, ``y``, and ``z`` - the coordinates of the optical source (``z`` is optional)
+
+2. ``NIRSDetectorsTable`` stores rows for each of the optical detectors of a NIRS device. ``NIRSDetectorsTable`` includes:
+    - ``label`` - the label of the detector
+    - ``x``, ``y``, and ``z`` - the coordinates of the optical detector (``z`` is optional)
+
+3.  ``NIRSChannelsTable`` stores rows for each physiological channel, which is defined by source-detector pairs, where sources & detectors are referenced via ``NIRSSourcesTable`` and ``NIRSDetectorsTable``. ``NIRSChannelsTable`` includes:
+    - ``label`` - the label of the channel
+    - ``source`` - a reference to the optical source in ``NIRSSourcesTable``
+    - ``detector`` - a reference to the optical detector in ``NIRSDetectorsTable``
+    - ``source_wavelength`` - the wavelength of light in nm emitted by the source for this channel
+    - ``emission_wavelength`` - the wavelength of light in nm emitted by the fluorophone (optional; only used for fluorescent spectroscopy)
+    - ``source_power`` - the power of the source in mW used for this channel
+    - ``detector_gain`` - the gain applied to the detector for this channel
+    
+4. ``NIRSDevice`` defines the NIRS device itself and includes:
+    - ``channels`` - a table of the optical channels available on this device (references ``NIRSChannelsTable``)
+    - ``sources`` - the optical sources of this device (references ``NIRSSourcesTable``)
+    - ``detectors`` - the optical detectors of this device (references ``NIRSDetectorsTable``)
+    
+    ``NIRSDevice`` also includes several attributes:
+    - ``nirs_mode`` - the mode of NIRS measurement performed with this device (e.g., 'continuous-wave', 'frequency-domain', etc.)
+    - ``frequency`` - the modulation frequency in Hz for frequency domain NIRS (optional)
+    - ``time_delay`` - the time delay in ns used for gated time domain NIRS (TD-NIRS) (optional)
+    - ``time_delay_width`` - the time delay width in ns used for gated time domain NIRS (optional)
+    - ``correlation_time_delay`` - the correlation time delay in ns for diffuse correlation spectroscopy NIRS (optional)
+    - ``correlation_time_delay_width`` - the correlation time delay width in ns for diffuse correlation spectroscopy NIRS (optional)
+    - ``additional_parameters`` - any additional parameters corresponding to the NIRS device/mode that are useful for interpreting the data
 
 ## Installation
 
