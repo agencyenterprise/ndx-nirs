@@ -2,16 +2,15 @@
 Credits
 *******
 
-.. note::
-    Add the credits for your extension here
-
 Acknowledgments
 ===============
-
+AE Studio
 
 Authors
 =======
-
+Sumner L Norman
+Darin Erat Sleiter
+José Ribeiro.
 
 *****
 Legal
