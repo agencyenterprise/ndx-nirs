@@ -1,5 +1,4 @@
 Release Notes
 =============
 
-.. note::
-    Add the release notes of your extension here
+1. v0.1.0: Current beta release includes support for several standard NIRS datatypes
