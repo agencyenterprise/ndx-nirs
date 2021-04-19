@@ -144,9 +144,28 @@ class NIRSChannelsTable(DynamicTable):
             table=True,
         ),
         dict(
-            name="wavelength",
-            description="The wavelength of light for this channel in nm",
+            name="source_wavelength",
+            description="The wavelength of light in nm emitted by the source for this channel.",
             required=True,
+        ),
+        dict(
+            name="emission_wavelength",
+            description=(
+                "The wavelength of light in nm emitted by the fluorophore under "
+                "fluorescent spectroscopy for this channel. Only used for fluorescent"
+                " spectroscopy"
+            ),
+            required=False,
+        ),
+        dict(
+            name="source_power",
+            description="The power of the source in mW used for this channel.",
+            required=False,
+        ),
+        dict(
+            name="detector_gain",
+            description="The gain applied to the detector for this channel.",
+            required=False,
         ),
     )
 
