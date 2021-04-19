@@ -168,6 +168,9 @@ device = NIRSDevice(
     # included. these two parameters are included because we are using time-domain NIRS
     time_delay=1.5, # in ns
     time_delay_width=0.1, # in ns
+    # specialized NIRS hardware may require additional parameters that can be defined 
+    # using the `additional_parameters` field:
+    additional_parameters="flux_capacitor_gain = 9000; speaker_volume = 11;",
 )
 # add the device to the NWB file
 nwb.add_device(device)
