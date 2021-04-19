@@ -98,6 +98,21 @@ from hdmf.common import DynamicTableRegion
 
 from ndx_nirs import NIRSSourcesTable, NIRSDetectorsTable, NIRSChannelsTable, NIRSDevice, NIRSSeries
 
+##### create some fake data using outside formats (e.g. numpy ndarrays) #####
+
+# create NIRS source & detector labels using numpy ndarrays 
+source_labels = ['S1', 'S2']
+detector_labels = ['D1', 'D2']
+
+# create NIRS source & detector positions using np.ndarray 
+# (n_channels x 2 columns for x/y)
+source_pos = np.array([[-2.,  0.], [-4. ,  5.6]])
+detector_pos = np.array([[0., 0.], [-4.,  1.]])
+
+# create a list of source detector pairs
+source_detector_pairs = [(0,0),(0,1),(1,0),(1,1)]
+
+##### create NWB file using the example data above #####
 
 # create a basic NWB file
 nwb = NWBFile(
@@ -107,47 +122,44 @@ nwb = NWBFile(
     subject=Subject(subject_id="nirs_subj_01")
 )
 
-
 # create and populate a NIRSSourcesTable containing the
 # label and location of optical sources for the device
 sources = NIRSSourcesTable()
-# add a row for each source
-sources.add_row(label="S1", x=-1.0, y=0.0, z=0.0)
-sources.add_row(label="S2", x=1.0, y=0.0, z=0.0)
-
+# add source labels & positions row-by-row
+for i_source in range(0,len(source_labels)):
+    sources.add_row(label=source_labels[i_source], 
+                        x=source_pos[i_source,0],
+                        y=source_pos[i_source,1])
 
 # create and populate a NIRSDetectorsTable containing the
 # label and location of optical sources for the device
 detectors = NIRSDetectorsTable()
 # add a row for each detector
-detectors.add_row(label="D1", x=0.0, y=-1.0) # the z-coordinate is optional
-detectors.add_row(label="D2", x=0.0, y=1.0)
-
+for i_detector in range(0,len(detector_labels)):
+    detectors.add_row(label=detector_labels[i_detector], 
+                          x=detector_pos[i_detector,0],
+                          y=detector_pos[i_detector,1]) # z-coordinate is optional
 
 # create a NIRSChannelsTable which defines the channels
 # between the provided sources and detectors
 channels = NIRSChannelsTable(sources, detectors)
 # each channel is composed of a single source, a single detector, and the wavelength
 # most source-detector pairs will use two separate wavelengths, and have two channels
-for wavelength in [690.0, 830.0]:
-    # for the source and detector parameters, pass in the index of
-    # the desired source (detector) in the sources (detectors) table
-    channels.add_row(label=f"S1.D1.{wavelength:.0f}nm", source=0,
-                     detector=0, source_wavelength=wavelength)
-    channels.add_row(label=f"S1.D2.{wavelength:.0f}nm", source=0,
-                     detector=1, source_wavelength=wavelength)
-    channels.add_row(label=f"S2.D1.{wavelength:.0f}nm", source=1,
-                     detector=0, source_wavelength=wavelength)
-    channels.add_row(label=f"S2.D2.{wavelength:.0f}nm", source=1,
-                     detector=1, source_wavelength=wavelength)
-
+for i_source, i_detector in source_detector_pairs:
+    for wavelength in [690.0, 830.0]:
+        # for the source and detector parameters, pass in the index of
+        # the desired source (detector) in the sources (detectors) table
+        channels.add_row(label=f"{source_labels[i_source]}.{detector_labels[i_detector]}.{wavelength:0.0f}nm",
+                         source=i_source,
+                         detector=i_detector,
+                         source_wavelength=wavelength)        
 
 # create a NIRSDevice which contains all of the information
 # about the device configuration and arrangement
 device = NIRSDevice(
     name="nirs_device",
-    description="An fNIRS device",
-    manufacturer="XYZ",
+    description="world's best fNIRS device",
+    manufacturer="skynet",
     nirs_mode="time-domain",
     channels=channels,
     sources=sources,
