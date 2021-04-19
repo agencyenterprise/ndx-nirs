@@ -61,7 +61,7 @@ def create_fake_channels_table():
                 label=f"CH{ch_id}",
                 source=source_idx,
                 detector=detector_idx,
-                wavelength=wavelength,
+                source_wavelength=wavelength,
             )
             ch_id += 1
     return table
@@ -74,9 +74,13 @@ def create_fake_nirs_device():
         name="device",
         description="An fNIRS device",
         manufacturer="XYZ",
+        nirs_mode="time-domain",
         channels=channels,
         sources=channels.source.table,
         detectors=channels.detector.table,
+        time_delay=4.2,
+        time_delay_width=0.5,
+        additional_parameters="flux capacitor gain = 9000",
     )
 
 
