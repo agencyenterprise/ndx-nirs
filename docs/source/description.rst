@@ -38,4 +38,11 @@ Extension Spec
     - ``correlation_time_delay_width`` - the correlation time delay width in ns for diffuse correlation spectroscopy NIRS (optional)
     - ``additional_parameters`` - any additional parameters corresponding to the NIRS device/mode that are useful for interpreting the data
 
+5. ``NIRSSeries`` stores the actual timeseries data collected by the NIRS device
+    - ``name`` - a unique name for the NIRS timeseries
+    - ``description`` - a description of the NIRS timeseries
+    - ``timestamps`` - the timestamps for each row of ``data`` in seconds
+    - ``channels`` - a ``DynamicTableRegion`` mapping to the appropriate channels in a ``NIRSChannelsTable``
+    - ``data`` - the actual numeric raw data measured by the NIRS system. It is a 2D array where the columns correspond to ``channels`` and the rows correspond to ``timestamps``
+
 This extension was developed by Sumner L Norman, Darin Erat Sleiter, and José Ribeiro.
