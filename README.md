@@ -92,25 +92,27 @@ from datetime import datetime
 
 import numpy as np
 
+from hdmf.common import DynamicTableRegion
 from pynwb import NWBHDF5IO
 from pynwb.file import NWBFile, Subject
-from hdmf.common import DynamicTableRegion
 
 from ndx_nirs import NIRSSourcesTable, NIRSDetectorsTable, NIRSChannelsTable, NIRSDevice, NIRSSeries
 
-##### create some fake data using outside formats (e.g. numpy ndarrays) #####
 
-# create NIRS source & detector labels using numpy ndarrays 
-source_labels = ['S1', 'S2']
-detector_labels = ['D1', 'D2']
+##### create some example data to add to the NWB file #####
 
-# create NIRS source & detector positions using np.ndarray 
-# (n_channels x 2 columns for x/y)
-source_pos = np.array([[-2.,  0.], [-4. ,  5.6]])
-detector_pos = np.array([[0., 0.], [-4.,  1.]])
+# create NIRS source & detector labels
+source_labels = ["S1", "S2"]
+detector_labels = ["D1", "D2"]
 
-# create a list of source detector pairs
-source_detector_pairs = [(0,0),(0,1),(1,0),(1,1)]
+# create NIRS source & detector positions as a numpy array
+# with dims: [num sources/detectors rows x 2 columns (for x, y)]
+source_pos = np.array([[-2.0, 0.0], [-4.0, 5.6]])
+detector_pos = np.array([[0.0, 0.0], [-4.0, 1.0]])
+
+# create a list of source detector pairs (pairs of indices)
+source_detector_pairs = [(0, 0), (0, 1), (1, 0), (1, 1)]
+
 
 ##### create NWB file using the example data above #####
 
@@ -119,26 +121,33 @@ nwb = NWBFile(
     session_description="A NIRS test session",
     identifier="nirs_test_001",
     session_start_time=datetime.now().astimezone(),
-    subject=Subject(subject_id="nirs_subj_01")
+    subject=Subject(subject_id="nirs_subj_01"),
 )
+
 
 # create and populate a NIRSSourcesTable containing the
 # label and location of optical sources for the device
 sources = NIRSSourcesTable()
 # add source labels & positions row-by-row
-for i_source in range(0,len(source_labels)):
-    sources.add_row(label=source_labels[i_source], 
-                        x=source_pos[i_source,0],
-                        y=source_pos[i_source,1])
+for i_source in range(0, len(source_labels)):
+    sources.add_row(
+        label=source_labels[i_source],
+        x=source_pos[i_source, 0],
+        y=source_pos[i_source, 1],
+    )
+
 
 # create and populate a NIRSDetectorsTable containing the
 # label and location of optical sources for the device
 detectors = NIRSDetectorsTable()
 # add a row for each detector
-for i_detector in range(0,len(detector_labels)):
-    detectors.add_row(label=detector_labels[i_detector], 
-                          x=detector_pos[i_detector,0],
-                          y=detector_pos[i_detector,1]) # z-coordinate is optional
+for i_detector in range(0, len(detector_labels)):
+    detectors.add_row(
+        label=detector_labels[i_detector],
+        x=detector_pos[i_detector, 0],
+        y=detector_pos[i_detector, 1],
+    )  # z-coordinate is optional
+
 
 # create a NIRSChannelsTable which defines the channels
 # between the provided sources and detectors
@@ -149,10 +158,13 @@ for i_source, i_detector in source_detector_pairs:
     for wavelength in [690.0, 830.0]:
         # for the source and detector parameters, pass in the index of
         # the desired source (detector) in the sources (detectors) table
-        channels.add_row(label=f"{source_labels[i_source]}.{detector_labels[i_detector]}.{wavelength:0.0f}nm",
-                         source=i_source,
-                         detector=i_detector,
-                         source_wavelength=wavelength)        
+        channels.add_row(
+            label=f"{source_labels[i_source]}.{detector_labels[i_detector]}.{wavelength:0.0f}nm",
+            source=i_source,
+            detector=i_detector,
+            source_wavelength=wavelength,
+        )
+
 
 # create a NIRSDevice which contains all of the information
 # about the device configuration and arrangement
@@ -166,9 +178,9 @@ device = NIRSDevice(
     detectors=detectors,
     # depending on which nirs_mode is selected, additional parameter values should be
     # included. these two parameters are included because we are using time-domain NIRS
-    time_delay=1.5, # in ns
-    time_delay_width=0.1, # in ns
-    # specialized NIRS hardware may require additional parameters that can be defined 
+    time_delay=1.5,  # in ns
+    time_delay_width=0.1,  # in ns
+    # specialized NIRS hardware may require additional parameters that can be defined
     # using the `additional_parameters` field:
     additional_parameters="flux_capacitor_gain = 9000; speaker_volume = 11;",
 )
@@ -182,7 +194,7 @@ nirs_series = NIRSSeries(
     description="The raw NIRS channel data",
     timestamps=np.arange(0, 10, 0.01),  # in seconds
     # reference only the channels associated with this series
-    channels=DynamicTableRegion(  
+    channels=DynamicTableRegion(
         name="channels",
         description="an ordered map to the channels in this NIRS series",
         table=channels,
@@ -197,11 +209,11 @@ nwb.add_acquisition(nirs_series)
 
 # Write our test file
 filename = "test_nirs_file.nwb"
-with NWBHDF5IO(filename, 'w') as io:
+with NWBHDF5IO(filename, "w") as io:
     io.write(nwb)
 
 # Read the data back in
-with NWBHDF5IO(filename, 'r', load_namespaces=True) as io:
+with NWBHDF5IO(filename, "r", load_namespaces=True) as io:
     nwb = io.read()
     print(nwb)
     print(nwb.devices["nirs_device"])
