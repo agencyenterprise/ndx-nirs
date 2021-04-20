@@ -16,7 +16,7 @@ Integration of NIRS into the NWB data standard affords all NIRS users interopera
 
 ## Modes of NIRS currently supported
 
-This extenstion currently explicitly supports: 
+This extension currently explicitly supports: 
 
 1. Continuous Wave
     - see `NIRSDevice.nirs_mode` 
@@ -36,6 +36,12 @@ We acknowledge that NIRS is a fast-growing recording method with new modalities 
 The NWB NIRS neurodata type was inspired by the [SNIRF](https://fnirs.org/resources/software/snirf/) data specification ([Github](https://github.com/fNIRS/snirf)). Many of the data fields can be directly mapped from SNIRF to NWB and vice-versa. We expect to release a SNIRF<->NWB conversion tool in the near future to improve compatibility between data standards and ease the burden of conversion on NIRS researchers.
 
 ## NWB NIRS data architecture
+
+The two principal neurodata types of this extension are ``NIRSDevice``, which holds information about the NIRS hardware and software configuration, and ``NIRSSeries``, which contains the timeseries data collected by the NIRS device.
+
+``NIRSSourcesTable``, ``NIRSDetectorsTable``, and ``NIRSChannelsTable`` are children of ``NIRSDevice`` which describe the source and detector layout as well as the wavelength-specific optical channels that are measured.
+
+Each row of ``NIRSChannelsTable`` represents a specific source and detector pair along with the source illumination wavelength (and optionally, in the case of fluorescent spectroscopy, the emission/detection wavelength). The channels in this table correspond have a 1-to-1 correspondence with the data columns in ``NIRSSeries``.
 
 1. ``NIRSSourcesTable`` stores rows for each optical source of a NIRS device. ``NIRSSourcesTable`` includes:
     - ``label`` - the label of the source
@@ -67,6 +73,13 @@ The NWB NIRS neurodata type was inspired by the [SNIRF](https://fnirs.org/resour
     - ``correlation_time_delay`` - the correlation time delay in ns for diffuse correlation spectroscopy NIRS (optional)
     - ``correlation_time_delay_width`` - the correlation time delay width in ns for diffuse correlation spectroscopy NIRS (optional)
     - ``additional_parameters`` - any additional parameters corresponding to the NIRS device/mode that are useful for interpreting the data
+
+5. ``NIRSSeries`` stores the actual timeseries data collected by the NIRS device
+    - ``name`` - a unique name for the NIRS timeseries
+    - ``description`` - a description of the NIRS timeseries
+    - ``timestamps`` - the timestamps for each row of ``data`` in seconds
+    - ``channels`` - a ``DynamicTableRegion`` mapping to the appropriate channels in a ``NIRSChannelsTable``
+    - ``data`` - the actual numeric raw data measured by the NIRS system. It is a 2D array where the columns correspond to ``channels`` and the rows correspond to ``timestamps``
 
 ## Installation
 
