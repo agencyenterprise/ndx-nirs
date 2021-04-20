@@ -21,16 +21,16 @@ Extension Spec
     - ``detector`` - a reference to the optical detector in ``NIRSDetectorsTable``
     - ``source_wavelength`` - the wavelength of light in nm emitted by the source for this channel
     - ``emission_wavelength`` - the wavelength of light in nm emitted by the fluorophone (optional; only used for fluorescent spectroscopy)
-    - ``source_power`` - the power of the source in mW used for this channel
-    - ``detector_gain`` - the gain applied to the detector for this channel
+    - ``source_power`` - the power of the source in mW used for this channel (optional)
+    - ``detector_gain`` - the gain applied to the detector for this channel (optional)
     
 4. ``NIRSDevice`` defines the NIRS device itself and includes:
     - ``channels`` - a table of the optical channels available on this device (references ``NIRSChannelsTable``)
     - ``sources`` - the optical sources of this device (references ``NIRSSourcesTable``)
     - ``detectors`` - the optical detectors of this device (references ``NIRSDetectorsTable``)
-    
-    ``NIRSDevice`` also includes several attributes:
     - ``nirs_mode`` - the mode of NIRS measurement performed with this device (e.g., 'continuous-wave', 'frequency-domain', etc.)
+        
+    ``NIRSDevice`` also includes several optional attributes to be used in parallel with specific ``nirs_mode`` values:
     - ``frequency`` - the modulation frequency in Hz for frequency domain NIRS (optional)
     - ``time_delay`` - the time delay in ns used for gated time domain NIRS (TD-NIRS) (optional)
     - ``time_delay_width`` - the time delay width in ns used for gated time domain NIRS (optional)

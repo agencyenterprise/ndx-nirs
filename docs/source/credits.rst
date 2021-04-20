@@ -10,7 +10,7 @@ Authors
 =======
 Sumner L Norman
 Darin Erat Sleiter
-José Ribeiro.
+José Ribeiro
 
 *****
 Legal
