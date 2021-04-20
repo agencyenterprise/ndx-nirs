@@ -80,7 +80,7 @@ def create_fake_nirs_device():
         detectors=channels.detector.table,
         time_delay=4.2,
         time_delay_width=0.5,
-        additional_parameters="flux capacitor gain = 9000",
+        additional_parameters="flux_capacitor_gain = 9000; speaker_volume = 11;",
     )
 
 
