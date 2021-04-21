@@ -58,7 +58,7 @@ def main():
     nirs_sources = NWBGroupSpec(
         neurodata_type_def="NIRSSourcesTable",
         neurodata_type_inc="DynamicTable",
-        name="sources",
+        default_name="sources",
         doc="A table describing optical sources of a NIRS device",
         datasets=[
             NWBDatasetSpec(
@@ -96,7 +96,7 @@ def main():
     nirs_detectors = NWBGroupSpec(
         neurodata_type_def="NIRSDetectorsTable",
         neurodata_type_inc="DynamicTable",
-        name="detectors",
+        default_name="detectors",
         doc="A table describing optical detectors of a NIRS device",
         datasets=[
             NWBDatasetSpec(
@@ -134,7 +134,7 @@ def main():
     nirs_channels = NWBGroupSpec(
         neurodata_type_def="NIRSChannelsTable",
         neurodata_type_inc="DynamicTable",
-        name="channels",
+        default_name="channels",
         doc="A table describing optical channels of a NIRS device",
         datasets=[
             NWBDatasetSpec(

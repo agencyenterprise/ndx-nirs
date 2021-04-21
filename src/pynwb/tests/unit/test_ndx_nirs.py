@@ -51,7 +51,7 @@ class TestNIRSSourcesTable(TestCase):
         """Verify that the table can be instantiated with default name and description"""
         table = NIRSSourcesTable()
 
-        self.assertEqual(table.name, "NIRSSourcesTable")
+        self.assertEqual(table.name, "sources")
         self.assertIsInstance(table.description, str)
 
     def test_add_row_without_optional_z(self):
@@ -84,7 +84,7 @@ class TestNIRSDetectorsTable(TestCase):
         """Verify that the table can be instantiated with default name and description"""
         table = NIRSDetectorsTable()
 
-        self.assertEqual(table.name, "NIRSDetectorsTable")
+        self.assertEqual(table.name, "detectors")
         self.assertIsInstance(table.description, str)
 
     def test_add_row_without_optional_z(self):
@@ -154,7 +154,7 @@ class TestNIRSChannelsTable(TestCase):
         detectors = create_fake_detectors_table()
         table = NIRSChannelsTable(sources, detectors)
 
-        self.assertEqual(table.name, "NIRSChannelsTable")
+        self.assertEqual(table.name, "channels")
         self.assertIsInstance(table.description, str)
         self.assertIs(table.source.table, sources)
         self.assertIs(table.detector.table, detectors)

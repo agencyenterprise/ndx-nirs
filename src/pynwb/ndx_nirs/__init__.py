@@ -52,7 +52,7 @@ def update_docval(overridden_fn, **kwargs):
 
 sources_docval = update_docval(
     DynamicTable.__init__,
-    name={"default": "NIRSSourcesTable"},
+    name={"default": "sources"},
     description={"default": "A table describing optical sources of a NIRS device"},
 )
 
@@ -79,7 +79,7 @@ class NIRSSourcesTable(DynamicTable):
 
 detectors_docval = update_docval(
     DynamicTable.__init__,
-    name={"default": "NIRSDetectorsTable"},
+    name={"default": "detectors"},
     description={"default": "A table describing optical detectors of a NIRS device"},
 )
 
@@ -119,7 +119,7 @@ channels_docval = [
     },
     *update_docval(
         DynamicTable.__init__,
-        name={"default": "NIRSChannelsTable"},
+        name={"default": "channels"},
         description={"default": "A table describing optical channels of a NIRS device"},
     ),
 ]
