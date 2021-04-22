@@ -5,6 +5,22 @@ Introduction
 ------------
 This is an NWB extension for storing near-infrared spectroscopy (NIRS) data. 
 
+
+NWB NIRS data architecture
+--------------------------
+
+The two principal neurodata types of this extension are ``NIRSDevice``, which holds information about the NIRS hardware and software configuration, and ``NIRSSeries``, which contains the timeseries data collected by the NIRS device.
+
+``NIRSSourcesTable``, ``NIRSDetectorsTable``, and ``NIRSChannelsTable`` are children of ``NIRSDevice`` which describe the source and detector layout as well as the wavelength-specific optical channels that are measured.
+
+Each row of ``NIRSChannelsTable`` represents a specific source and detector pair along with the source illumination wavelength (and optionally, in the case of fluorescent spectroscopy, the emission/detection wavelength). The channels in this table correspond have a 1-to-1 correspondence with the data columns in ``NIRSSeries``.
+
+.. image:: images/ndx-nirs-uml.png
+  :alt: ndx-nirs UML
+  :width: 100%
+  :align: center  
+
+
 Extension Spec
 --------------
 1. ``NIRSSourcesTable`` stores rows for each optical source of a NIRS device. ``NIRSSourcesTable`` includes:
@@ -15,7 +31,7 @@ Extension Spec
     - ``label`` - the label of the detector
     - ``x``, ``y``, and ``z`` - the coordinates of the optical detector (``z`` is optional)
 
-3.  ``NIRSChannelsTable`` stores rows for each physiological channel, which is defined by source-detector pairs, where sources & detectors are referenced via ``NIRSSourcesTable`` and ``NIRSDetectorsTable``. ``NIRSChannelsTable`` includes:
+3. ``NIRSChannelsTable`` stores rows for each physiological channel, which is defined by source-detector pairs, where sources & detectors are referenced via ``NIRSSourcesTable`` and ``NIRSDetectorsTable``. ``NIRSChannelsTable`` includes:
     - ``label`` - the label of the channel
     - ``source`` - a reference to the optical source in ``NIRSSourcesTable``
     - ``detector`` - a reference to the optical detector in ``NIRSDetectorsTable``
@@ -29,8 +45,8 @@ Extension Spec
     - ``sources`` - the optical sources of this device (references ``NIRSSourcesTable``)
     - ``detectors`` - the optical detectors of this device (references ``NIRSDetectorsTable``)
     - ``nirs_mode`` - the mode of NIRS measurement performed with this device (e.g., 'continuous-wave', 'frequency-domain', etc.)
-        
-    ``NIRSDevice`` also includes several optional attributes to be used in parallel with specific ``nirs_mode`` values:
+
+   ``NIRSDevice`` also includes several optional attributes to be used in parallel with specific ``nirs_mode`` values:
     - ``frequency`` - the modulation frequency in Hz for frequency domain NIRS (optional)
     - ``time_delay`` - the time delay in ns used for gated time domain NIRS (TD-NIRS) (optional)
     - ``time_delay_width`` - the time delay width in ns used for gated time domain NIRS (optional)
