@@ -44,7 +44,7 @@ The two principal neurodata types of this extension are ``NIRSDevice``, which ho
 
 Each row of ``NIRSChannelsTable`` represents a specific source and detector pair along with the source illumination wavelength (and optionally, in the case of fluorescent spectroscopy, the emission/detection wavelength). The channels in this table correspond have a 1-to-1 correspondence with the data columns in ``NIRSSeries``.
 
-![ndx-nirs UML](/docs/source/images/ndx-nirs-uml.png)
+![ndx-nirs UML](https://github.com/agencyenterprise/ndx-nirs/raw/main/docs/source/images/ndx-nirs-uml.png)
 
 ### Defined neurodata types
 
