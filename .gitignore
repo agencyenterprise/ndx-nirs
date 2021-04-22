@@ -117,3 +117,7 @@ venv.bak/
 
 # Visual Studio Code
 .vscode/
+
+# ndx-template instructions
+NEXTSTEPS.md
+docs/README.md

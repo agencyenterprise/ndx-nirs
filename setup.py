@@ -28,9 +28,10 @@ setup_args = {
     "long_description_content_type": readme_type,
     "author": "Sumner L Norman,Darin Erat Sleiter,José Ribeiro",
     "author_email": "sumner@ae.studio,darin@ae.studio,jose@ae.studio",
-    "url": "",
+    "url": "https://github.com/agencyenterprise/ndx-nirs",
     "license": "BSD 3-Clause",
-    "install_requires": ["pynwb>=1.3.0"],
+    "python_requires": ">=3.6",
+    "install_requires": ["pynwb>=1.4.0"],
     "packages": find_packages("src/pynwb"),
     "package_dir": {"": "src/pynwb"},
     "package_data": {
