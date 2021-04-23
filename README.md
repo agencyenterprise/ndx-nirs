@@ -88,6 +88,12 @@ Each row of ``NIRSChannelsTable`` represents a specific source and detector pair
 
 ## Installation
 
+To install from PyPI use pip:
+
+```
+$ pip install ndx-nirs
+```
+
 To install after cloning the extension repo from github, execute the following from the root of the repo:
 
 ```
@@ -99,9 +105,6 @@ For development purposes, it might be useful to install in editable mode:
 ```
 $ pip install -e .
 ```
-
-Note: a version of the ndx-nirs package will be released on PyPI before the extension is submitted to the NDX Catalog.
-
 
 ## Usage
 

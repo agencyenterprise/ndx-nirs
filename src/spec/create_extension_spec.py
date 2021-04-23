@@ -17,7 +17,7 @@ def main():
     ns_builder = NWBNamespaceBuilder(
         doc="""An NWB extension for storing Near-Infrared Spectroscopy (NIRS) data""",
         name="""ndx-nirs""",
-        version="""0.1.0""",
+        version="""0.1.1""",
         author=list(
             map(
                 str.strip,
