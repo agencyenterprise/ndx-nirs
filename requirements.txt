@@ -1,2 +1,3 @@
-pynwb>=1.4.0
+pynwb==1.4.0
+hdmf==2.4.0
 hdmf_docutils

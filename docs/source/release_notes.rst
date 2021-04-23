@@ -1,7 +1,17 @@
 Release Notes
 =============
 
-v0.1.0:
+v0.1.1 (April 23, 2021):
+-------
+
+Hotfix release.
+
+Fixes:
+   - constrain ``hdmf`` dependency to version 2.4.0 until the just-released 2.5.0 can be tested
+   - update documentation to indicate how to install ``ndx-nirs`` from PyPI
+   - constrain wheel to be python 3 only
+
+v0.1.0 (April 22, 2021):
 -------
 
 Initial release version of the extension which includes support for several standard NIRS datatypes.

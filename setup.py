@@ -22,7 +22,7 @@ except Exception:
 
 setup_args = {
     "name": "ndx-nirs",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "description": "An NWB extension for storing Near-Infrared Spectroscopy (NIRS) data",
     "long_description": readme,
     "long_description_content_type": readme_type,
@@ -31,7 +31,7 @@ setup_args = {
     "url": "https://github.com/agencyenterprise/ndx-nirs",
     "license": "BSD 3-Clause",
     "python_requires": ">=3.6",
-    "install_requires": ["pynwb>=1.4.0"],
+    "install_requires": ["hdmf==2.4.0", "pynwb==1.4.0"],
     "packages": find_packages("src/pynwb"),
     "package_dir": {"": "src/pynwb"},
     "package_data": {
