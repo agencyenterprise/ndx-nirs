@@ -30,8 +30,8 @@ setup_args = {
     "author_email": "sumner@ae.studio,darin@ae.studio,jose@ae.studio",
     "url": "https://github.com/agencyenterprise/ndx-nirs",
     "license": "BSD 3-Clause",
-    "python_requires": ">=3.6",
-    "install_requires": ["hdmf==2.4.0", "pynwb==1.4.0"],
+    "python_requires": "~=3.6",
+    "install_requires": ["hdmf~=2.5", "pynwb~=1.4"],
     "packages": find_packages("src/pynwb"),
     "package_dir": {"": "src/pynwb"},
     "package_data": {
