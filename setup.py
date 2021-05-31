@@ -31,7 +31,7 @@ setup_args = {
     "url": "https://github.com/agencyenterprise/ndx-nirs",
     "license": "BSD 3-Clause",
     "python_requires": "~=3.6",
-    "install_requires": ["hdmf~=2.5", "pynwb~=1.4"],
+    "install_requires": ["hdmf>=2.5.6,<3", "pynwb>=1.5.1,<2"],
     "packages": find_packages("src/pynwb"),
     "package_dir": {"": "src/pynwb"},
     "package_data": {
