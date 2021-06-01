@@ -1,3 +1,6 @@
 pynwb>=1.5.1,<2
 hdmf>=2.5.6,<3
+
+# dependencies for building documentation
 hdmf_docutils
+sphinx~=4.0

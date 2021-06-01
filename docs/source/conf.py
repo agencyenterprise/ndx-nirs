@@ -22,10 +22,10 @@ copyright = "2021, Sumner L Norman,Darin Erat Sleiter,José Ribeiro"
 author = "Sumner L Norman,Darin Erat Sleiter,José Ribeiro"
 
 # The short X.Y version
-version = "0.1.1"
+version = "0.2.0"
 
 # The full version, including alpha/beta/rc tags
-release = "0.1.1"
+release = "0.2.0"
 
 
 # -- General configuration ---------------------------------------------------
@@ -107,7 +107,7 @@ def run_doc_autogen(_):
 
 def setup(app):
     app.connect("builder-inited", run_doc_autogen)
-    app.add_stylesheet("theme_overrides.css")  # overrides for wide tables in RTD theme
+    app.add_css_file("theme_overrides.css")  # overrides for wide tables in RTD theme
 
 
 # -- Customize sphinx settings
