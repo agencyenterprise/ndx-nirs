@@ -8,9 +8,6 @@ from pynwb.spec import (
     NWBAttributeSpec,
 )
 
-# TODO: import the following spec classes as needed
-# from pynwb.spec import NWBDatasetSpec, NWBLinkSpec, NWBDtypeSpec, NWBRefSpec
-
 
 def main():
     # these arguments were auto-generated from your cookiecutter inputs
@@ -32,7 +29,7 @@ def main():
         ),
     )
 
-    # TODO: specify the neurodata_types that are used by the extension as well
+    # specify the neurodata_types that are used by the extension as well
     # as in which namespace they are found
     # this is similar to specifying the Python modules that need to be imported
     # to use your new data types
@@ -51,10 +48,9 @@ def main():
     ns_builder.include_type("ElementIdentifiers", namespace="hdmf-common")
     ns_builder.include_type("Device", namespace="core")
 
-    # TODO: define your new data types
+    # define your new data types
     # see https://pynwb.readthedocs.io/en/latest/extensions.html#extending-nwb
     # for more information
-
     nirs_sources = NWBGroupSpec(
         neurodata_type_def="NIRSSourcesTable",
         neurodata_type_inc="DynamicTable",
@@ -70,21 +66,21 @@ def main():
             ),
             NWBDatasetSpec(
                 name="x",
-                doc="The x coordinate of the optical source",
+                doc="The x coordinate in meters of the optical source",
                 dtype="float",
                 shape=(None,),
                 neurodata_type_inc="VectorData",
             ),
             NWBDatasetSpec(
                 name="y",
-                doc="The y coordinate of the optical source",
+                doc="The y coordinate in meters of the optical source",
                 dtype="float",
                 shape=(None,),
                 neurodata_type_inc="VectorData",
             ),
             NWBDatasetSpec(
                 name="z",
-                doc="The z coordinate of the optical source",
+                doc="The z coordinate in meters of the optical source",
                 dtype="float",
                 shape=(None,),
                 neurodata_type_inc="VectorData",
@@ -108,21 +104,21 @@ def main():
             ),
             NWBDatasetSpec(
                 name="x",
-                doc="The x coordinate of the optical detector",
+                doc="The x coordinate in meters of the optical detector",
                 dtype="float",
                 shape=(None,),
                 neurodata_type_inc="VectorData",
             ),
             NWBDatasetSpec(
                 name="y",
-                doc="The y coordinate of the optical detector",
+                doc="The y coordinate in meters of the optical detector",
                 dtype="float",
                 shape=(None,),
                 neurodata_type_inc="VectorData",
             ),
             NWBDatasetSpec(
                 name="z",
-                doc="The z coordinate of the optical detector",
+                doc="The z coordinate in meters of the optical detector",
                 dtype="float",
                 shape=(None,),
                 neurodata_type_inc="VectorData",
@@ -301,7 +297,7 @@ def main():
         ],
     )
 
-    # TODO: add all of your new data types to this list
+    # all new data types defined in this module
     new_data_types = [
         nirs_sources,
         nirs_detectors,
