@@ -50,11 +50,11 @@ Each row of ``NIRSChannelsTable`` represents a specific source and detector pair
 
 1. ``NIRSSourcesTable`` stores rows for each optical source of a NIRS device. ``NIRSSourcesTable`` includes:
     - ``label`` - the label of the source
-    - ``x``, ``y``, and ``z`` - the coordinates of the optical source (``z`` is optional)
+    - ``x``, ``y``, and ``z`` - the coordinates in meters of the optical source (``z`` is optional)
 
 2. ``NIRSDetectorsTable`` stores rows for each of the optical detectors of a NIRS device. ``NIRSDetectorsTable`` includes:
     - ``label`` - the label of the detector
-    - ``x``, ``y``, and ``z`` - the coordinates of the optical detector (``z`` is optional)
+    - ``x``, ``y``, and ``z`` - the coordinates in meters of the optical detector (``z`` is optional)
 
 3. ``NIRSChannelsTable`` stores rows for each physiological channel, which is defined by source-detector pairs, where sources & detectors are referenced via ``NIRSSourcesTable`` and ``NIRSDetectorsTable``. ``NIRSChannelsTable`` includes:
     - ``label`` - the label of the channel
