@@ -22,10 +22,10 @@ copyright = "2021, Sumner L Norman,Darin Erat Sleiter,José Ribeiro"
 author = "Sumner L Norman,Darin Erat Sleiter,José Ribeiro"
 
 # The short X.Y version
-version = "0.1.0"
+version = "0.2.0"
 
 # The full version, including alpha/beta/rc tags
-release = "alpha"
+release = "0.2.0"
 
 
 # -- General configuration ---------------------------------------------------
@@ -52,7 +52,7 @@ language = "English"
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
 # This pattern also affects html_static_path and html_extra_path.
-exclude_patterns = []
+exclude_patterns = ["*.ipynb_checkpoints*"]
 
 
 # -- Options for HTML output -------------------------------------------------
@@ -65,7 +65,8 @@ html_theme = "alabaster"
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
-html_static_path = ["_static"]
+# html_static_path = ["_static"]
+html_static_path = []
 
 
 # -- Extension configuration -------------------------------------------------
@@ -106,7 +107,7 @@ def run_doc_autogen(_):
 
 def setup(app):
     app.connect("builder-inited", run_doc_autogen)
-    app.add_stylesheet("theme_overrides.css")  # overrides for wide tables in RTD theme
+    app.add_css_file("theme_overrides.css")  # overrides for wide tables in RTD theme
 
 
 # -- Customize sphinx settings

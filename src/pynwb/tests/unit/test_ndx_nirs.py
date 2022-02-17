@@ -20,7 +20,7 @@ class TestNIRSSourcesTable(TestCase):
         """Verify that the table can be instantiated with default name and description"""
         table = NIRSSourcesTable()
 
-        self.assertEqual(table.name, "NIRSSourcesTable")
+        self.assertEqual(table.name, "sources")
         self.assertIsInstance(table.description, str)
 
     def test_add_row_without_optional_z(self):
@@ -53,7 +53,7 @@ class TestNIRSDetectorsTable(TestCase):
         """Verify that the table can be instantiated with default name and description"""
         table = NIRSDetectorsTable()
 
-        self.assertEqual(table.name, "NIRSDetectorsTable")
+        self.assertEqual(table.name, "detectors")
         self.assertIsInstance(table.description, str)
 
     def test_add_row_without_optional_z(self):
@@ -108,7 +108,7 @@ def create_fake_channels_table():
                 label=f"CH{ch_id}",
                 source=source_idx,
                 detector=detector_idx,
-                wavelength=wavelength,
+                source_wavelength=wavelength,
             )
             ch_id += 1
     return table
@@ -123,7 +123,7 @@ class TestNIRSChannelsTable(TestCase):
         detectors = create_fake_detectors_table()
         table = NIRSChannelsTable(target_tables={'sources': sources, 'detectors': detectors})
 
-        self.assertEqual(table.name, "NIRSChannelsTable")
+        self.assertEqual(table.name, "channels")
         self.assertIsInstance(table.description, str)
         self.assertIs(table.source.table, sources)
         self.assertIs(table.detector.table, detectors)
@@ -144,7 +144,7 @@ class TestNIRSChannelsTable(TestCase):
                 'detectors': create_fake_detectors_table()
             }
         )
-        table.add_row(label="foo", source=6, detector=1, wavelength=123.5)
+        table.add_row(label="foo", source=6, detector=1, source_wavelength=123.5)
 
         self.assertEqual(len(table), 1)
         self.assertEqual(table.label[0], "foo")
@@ -156,7 +156,26 @@ class TestNIRSChannelsTable(TestCase):
             dict(label="D2", x=1.5, y=-2.5), index=pd.Index([1], name="id")
         )
         pd.testing.assert_frame_equal(table.detector[0], expected_detector)
-        self.assertEqual(table.wavelength[0], 123.5)
+        self.assertEqual(table.source_wavelength[0], 123.5)
+
+    def test_add_row_with_optional_columns(self):
+        """Verify that optional columns can be specified"""
+        table = NIRSChannelsTable(
+            create_fake_sources_table(), create_fake_detectors_table()
+        )
+        table.add_row(
+            label="foo",
+            source=6,
+            detector=1,
+            source_wavelength=123.5,
+            emission_wavelength=234.6,
+            source_power=11.0,
+            detector_gain=5.1,
+        )
+
+        self.assertEqual(table.emission_wavelength[0], 234.6)
+        self.assertEqual(table.source_power[0], 11.0)
+        self.assertEqual(table.detector_gain[0], 5.1)
 
 
 class TestNIRSDevice(TestCase):
@@ -168,6 +187,7 @@ class TestNIRSDevice(TestCase):
         device = NIRSDevice(
             name="test_device",
             description="Foo",
+            nirs_mode="time-domain",
             channels=channels,
             sources=channels.source.table,
             detectors=channels.detector.table,
@@ -176,6 +196,38 @@ class TestNIRSDevice(TestCase):
         self.assertIs(device.channels, channels)
         self.assertIs(device.sources, channels.source.table)
         self.assertIs(device.detectors, channels.detector.table)
+
+    def create_test_device_with_params(self, **kwargs):
+        """Returns an initialized NIRSDevice giving it additional kwargs"""
+        channels = create_fake_channels_table()
+        return NIRSDevice(
+            name="test_device",
+            description="Foo",
+            nirs_mode="time-domain",
+            channels=channels,
+            sources=channels.source.table,
+            detectors=channels.detector.table,
+            **kwargs,
+        )
+
+    def test_optional_attributes(self):
+        """Verify that all expected optional attributes can be provided to a NIRSDevice"""
+        test_attributes = {
+            "frequency": 30.5,
+            "time_delay": 25.0,
+            "time_delay_width": 13.0,
+            "correlation_time_delay": 0.013,
+            "correlation_time_delay_width": 0.008,
+            "additional_parameters": "some additional text",
+        }
+        for name, value in test_attributes.items():
+            with self.subTest(attr_name=name, attr_value=value):
+                device = self.create_test_device_with_params(**{name: value})
+                self.assertEqual(
+                    getattr(device, name),
+                    value,
+                    f"failed for '{name}' attribute subtest",
+                )
 
 
 class TestNIRSSeries(TestCase):

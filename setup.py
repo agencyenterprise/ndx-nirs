@@ -22,15 +22,16 @@ except Exception:
 
 setup_args = {
     "name": "ndx-nirs",
-    "version": "0.1.0",
+    "version": "0.2.0",
     "description": "An NWB extension for storing Near-Infrared Spectroscopy (NIRS) data",
     "long_description": readme,
     "long_description_content_type": readme_type,
     "author": "Sumner L Norman,Darin Erat Sleiter,José Ribeiro",
     "author_email": "sumner@ae.studio,darin@ae.studio,jose@ae.studio",
-    "url": "",
+    "url": "https://github.com/agencyenterprise/ndx-nirs",
     "license": "BSD 3-Clause",
-    "install_requires": ["pynwb>=1.3.0"],
+    "python_requires": ">=3.7,<3.11",
+    "install_requires": ["hdmf>=3.1.1,<4", "pynwb>=2.0.0,<3"],
     "packages": find_packages("src/pynwb"),
     "package_dir": {"": "src/pynwb"},
     "package_data": {
@@ -40,6 +41,11 @@ setup_args = {
         ]
     },
     "classifiers": [
+        "Programming Language :: Python",
+        "Programming Language :: Python :: 3.7",
+        "Programming Language :: Python :: 3.8",
+        "Programming Language :: Python :: 3.9",
+        "Programming Language :: Python :: 3.10",
         "Intended Audience :: Developers",
         "Intended Audience :: Science/Research",
     ],

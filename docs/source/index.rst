@@ -1,5 +1,5 @@
 Specification for the ndx-nirs extension
-==================================
+========================================
 
 .. toctree::
     :numbered:

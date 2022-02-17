@@ -14,7 +14,7 @@ def main():
     ns_builder = NWBNamespaceBuilder(
         doc="""An NWB extension for storing Near-Infrared Spectroscopy (NIRS) data""",
         name="""ndx-nirs""",
-        version="""0.1.0""",
+        version="""0.2.0""",
         author=list(
             map(
                 str.strip,
@@ -29,7 +29,7 @@ def main():
         ),
     )
 
-    # TODO: specify the neurodata_types that are used by the extension as well
+    # specify the neurodata_types that are used by the extension as well
     # as in which namespace they are found
     # this is similar to specifying the Python modules that need to be imported
     # to use your new data types
@@ -48,14 +48,13 @@ def main():
     ns_builder.include_type("ElementIdentifiers", namespace="hdmf-common")
     ns_builder.include_type("Device", namespace="core")
 
-    # TODO: define your new data types
+    # define your new data types
     # see https://pynwb.readthedocs.io/en/latest/extensions.html#extending-nwb
     # for more information
-
     nirs_sources = NWBGroupSpec(
         neurodata_type_def="NIRSSourcesTable",
         neurodata_type_inc="DynamicTable",
-        default_name="NIRSSourcesTable",
+        default_name="sources",
         doc="A table describing optical sources of a NIRS device",
         datasets=[
             NWBDatasetSpec(
@@ -67,21 +66,21 @@ def main():
             ),
             NWBDatasetSpec(
                 name="x",
-                doc="The x coordinate of the optical source",
+                doc="The x coordinate in meters of the optical source",
                 dtype="float",
                 shape=(None,),
                 neurodata_type_inc="VectorData",
             ),
             NWBDatasetSpec(
                 name="y",
-                doc="The y coordinate of the optical source",
+                doc="The y coordinate in meters of the optical source",
                 dtype="float",
                 shape=(None,),
                 neurodata_type_inc="VectorData",
             ),
             NWBDatasetSpec(
                 name="z",
-                doc="The z coordinate of the optical source",
+                doc="The z coordinate in meters of the optical source",
                 dtype="float",
                 shape=(None,),
                 neurodata_type_inc="VectorData",
@@ -101,7 +100,7 @@ def main():
     nirs_detectors = NWBGroupSpec(
         neurodata_type_def="NIRSDetectorsTable",
         neurodata_type_inc="DynamicTable",
-        default_name="NIRSDetectorsTable",
+        default_name="detectors",
         doc="A table describing optical detectors of a NIRS device",
         datasets=[
             NWBDatasetSpec(
@@ -113,21 +112,21 @@ def main():
             ),
             NWBDatasetSpec(
                 name="x",
-                doc="The x coordinate of the optical detector",
+                doc="The x coordinate in meters of the optical detector",
                 dtype="float",
                 shape=(None,),
                 neurodata_type_inc="VectorData",
             ),
             NWBDatasetSpec(
                 name="y",
-                doc="The y coordinate of the optical detector",
+                doc="The y coordinate in meters of the optical detector",
                 dtype="float",
                 shape=(None,),
                 neurodata_type_inc="VectorData",
             ),
             NWBDatasetSpec(
                 name="z",
-                doc="The z coordinate of the optical detector",
+                doc="The z coordinate in meters of the optical detector",
                 dtype="float",
                 shape=(None,),
                 neurodata_type_inc="VectorData",
@@ -147,7 +146,7 @@ def main():
     nirs_channels = NWBGroupSpec(
         neurodata_type_def="NIRSChannelsTable",
         neurodata_type_inc="DynamicTable",
-        name="channels",
+        default_name="channels",
         doc="A table describing optical channels of a NIRS device",
         datasets=[
             NWBDatasetSpec(
@@ -165,24 +164,44 @@ def main():
             ),
             NWBDatasetSpec(
                 name="detector",
-                doc="A reference to the optical detector for this channel in NIRSDetectorsTable",
+                doc="A reference to the optical detector for this channel in NIRSDetectorsTable.",
                 shape=(None,),
                 neurodata_type_inc="DynamicTableRegion",
             ),
             NWBDatasetSpec(
-                name="wavelength",
-                doc="The wavelength of light for this channel in nm",
+                name="source_wavelength",
+                doc="The wavelength of light in nm emitted by the source for this channel.",
                 dtype="float",
                 shape=(None,),
                 neurodata_type_inc="VectorData",
-                attributes=[
-                    NWBAttributeSpec(
-                        name="unit",
-                        doc="The unit of measurement for the wavelength",
-                        dtype="text",
-                        value="nm",
-                    )
-                ],
+            ),
+            NWBDatasetSpec(
+                name="emission_wavelength",
+                doc=(
+                    "The wavelength of light in nm emitted by the fluorophore under "
+                    "fluorescent spectroscopy for this channel. Only used for fluorescent"
+                    " spectroscopy"
+                ),
+                dtype="float",
+                shape=(None,),
+                neurodata_type_inc="VectorData",
+                quantity="?",
+            ),
+            NWBDatasetSpec(
+                name="source_power",
+                doc="The power of the source in mW used for this channel.",
+                dtype="float",
+                shape=(None,),
+                neurodata_type_inc="VectorData",
+                quantity="?",
+            ),
+            NWBDatasetSpec(
+                name="detector_gain",
+                doc="The gain applied to the detector for this channel.",
+                dtype="float",
+                shape=(None,),
+                neurodata_type_inc="VectorData",
+                quantity="?",
             ),
         ],
         attributes=[
@@ -199,6 +218,77 @@ def main():
         neurodata_type_def="NIRSDevice",
         neurodata_type_inc="Device",
         doc="A NIRS Device",
+        attributes=[
+            NWBAttributeSpec(
+                name="nirs_mode",
+                doc=(
+                    "The mode of NIRS measurement performed with this device."
+                    " Examples include (but are not limited to) continuous-wave,"
+                    " frequency-domain, time-domain, time-domain-moments,"
+                    " diffuse-correlation-spectroscopy, continuous-wave-fluorescence,"
+                    " and diffuse-optical-tomography, as well as variants including"
+                    " fluorescence."
+                ),
+                dtype="text",
+            ),
+            NWBAttributeSpec(
+                name="frequency",
+                doc=(
+                    "The modulation frequency in Hz used for frequency domain NIRS."
+                    " if nirs_mode is a type of frequency domain spectroscopy."
+                ),
+                dtype="float",
+                required=False,
+            ),
+            NWBAttributeSpec(
+                name="time_delay",
+                doc=(
+                    "The time delay in ns used for gated time domain NIRS. Only used"
+                    " if nirs_mode is a type of gated time domain spectroscopy."
+                ),
+                dtype="float",
+                required=False,
+            ),
+            NWBAttributeSpec(
+                name="time_delay_width",
+                doc=(
+                    "The time delay width in ns used for gated time domain NIRS. Only"
+                    " used if nirs_mode is a type of gated time domain spectroscopy."
+                ),
+                dtype="float",
+                required=False,
+            ),
+            NWBAttributeSpec(
+                name="correlation_time_delay",
+                doc=(
+                    "The correlation time delay in ns for diffuse correlation"
+                    " spectroscopy NIRS. Only used if nirs_mode is a type of diffuse"
+                    " correlation spectroscopy."
+                ),
+                dtype="float",
+                required=False,
+            ),
+            NWBAttributeSpec(
+                name="correlation_time_delay_width",
+                doc=(
+                    "The correlation time delay width in ns for diffuse correlation"
+                    " spectroscopy NIRS. Only used if nirs_mode is a type of diffuse"
+                    " correlation spectroscopy."
+                ),
+                dtype="float",
+                required=False,
+            ),
+            NWBAttributeSpec(
+                name="additional_parameters",
+                doc=(
+                    "Any additional parameters corresponding to the NIRS device and"
+                    " NIRS mode of operation that are useful for interpreting the"
+                    " data."
+                ),
+                dtype="text",
+                required=False,
+            ),
+        ],
         groups=[
             NWBGroupSpec(
                 name="channels",
@@ -231,7 +321,7 @@ def main():
         ],
     )
 
-    # TODO: add all of your new data types to this list
+    # all new data types defined in this module
     new_data_types = [
         nirs_sources,
         nirs_detectors,

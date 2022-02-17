@@ -2,7 +2,7 @@ namespaces:
 - author:
   - Sumner L Norman
   - Darin Erat Sleiter
-  - "Jos\xE9 Ribeiro"
+  - José Ribeiro
   contact:
   - sumner@ae.studio
   - darin@ae.studio
@@ -25,4 +25,4 @@ namespaces:
     - Data
     - ElementIdentifiers
   - source: ndx-nirs.extensions.yaml
-  version: 0.1.0
+  version: 0.2.0
