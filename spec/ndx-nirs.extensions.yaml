@@ -21,19 +21,19 @@ groups:
     dtype: float
     shape:
     - null
-    doc: The x coordinate of the optical source
+    doc: The x coordinate in meters of the optical source
   - name: y
     neurodata_type_inc: VectorData
     dtype: float
     shape:
     - null
-    doc: The y coordinate of the optical source
+    doc: The y coordinate in meters of the optical source
   - name: z
     neurodata_type_inc: VectorData
     dtype: float
     shape:
     - null
-    doc: The z coordinate of the optical source
+    doc: The z coordinate in meters of the optical source
     quantity: '?'
 - neurodata_type_def: NIRSDetectorsTable
   neurodata_type_inc: DynamicTable
@@ -57,19 +57,19 @@ groups:
     dtype: float
     shape:
     - null
-    doc: The x coordinate of the optical detector
+    doc: The x coordinate in meters of the optical detector
   - name: y
     neurodata_type_inc: VectorData
     dtype: float
     shape:
     - null
-    doc: The y coordinate of the optical detector
+    doc: The y coordinate in meters of the optical detector
   - name: z
     neurodata_type_inc: VectorData
     dtype: float
     shape:
     - null
-    doc: The z coordinate of the optical detector
+    doc: The z coordinate in meters of the optical detector
     quantity: '?'
 - neurodata_type_def: NIRSChannelsTable
   neurodata_type_inc: DynamicTable

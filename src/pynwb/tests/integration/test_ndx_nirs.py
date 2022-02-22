@@ -35,14 +35,14 @@ def setup_nwbfile():
 
 
 def create_fake_sources_table():
-    table = NIRSSourcesTable()
+    table = NIRSSourcesTable(description="a desc")
     table.add_row({"label": "S1", "x": 0.0, "y": -1.0})
     table.add_row({"label": "S2", "x": 0.0, "y": 1.0})
     return table
 
 
 def create_fake_detectors_table():
-    table = NIRSDetectorsTable()
+    table = NIRSDetectorsTable(description="a desc")
     table.add_row({"label": "D1", "x": 0.0, "y": -2.0})
     table.add_row({"label": "D2", "x": 0.0, "y": 0.0})
     table.add_row({"label": "D3", "x": 0.0, "y": 2.0})
@@ -53,7 +53,9 @@ def create_fake_channels_table():
     sources = create_fake_sources_table()
     detectors = create_fake_detectors_table()
     source_detector_pairs = [(0, 0), (0, 1), (1, 1), (1, 2)]
-    table = NIRSChannelsTable(target_tables={'sources': sources, 'detectors': detectors})
+    table = NIRSChannelsTable(
+        target_tables={"source": sources, "detector": detectors}, description="a desc"
+    )
     ch_id = 0
     for source_idx, detector_idx in source_detector_pairs:
         for wavelength in [690.0, 830.0]:
@@ -76,8 +78,8 @@ def create_fake_nirs_device():
         manufacturer="XYZ",
         nirs_mode="time-domain",
         channels=channels,
-        sources=channels.source.table,
-        detectors=channels.detector.table,
+        sources=channels["source"].table,
+        detectors=channels["detector"].table,
         time_delay=4.2,
         time_delay_width=0.5,
         additional_parameters="flux_capacitor_gain = 9000; speaker_volume = 11;",
@@ -126,5 +128,5 @@ class NIRSIntegrationTests(TestCase):
             read_nwb = io.read()
             self.assertContainerEqual(self.nwb, read_nwb)
             device = read_nwb.devices["device"]
-            self.assertIs(device.channels.source.table, device.sources)
-            self.assertIs(device.channels.detector.table, device.detectors)
+            self.assertIs(device.channels["source"].table, device.sources)
+            self.assertIs(device.channels["detector"].table, device.detectors)

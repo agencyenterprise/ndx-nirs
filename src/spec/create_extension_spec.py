@@ -92,9 +92,9 @@ def main():
                 name="description",
                 dtype="text",
                 doc="description",
-                default_value="A table describing the optical sources of the device."
+                default_value="A table describing the optical sources of the device.",
             )
-        ]
+        ],
     )
 
     nirs_detectors = NWBGroupSpec(
@@ -138,9 +138,9 @@ def main():
                 name="description",
                 dtype="text",
                 doc="description",
-                default_value="A table describing the optical detectors of the device."
+                default_value="A table describing the optical detectors of the device.",
             )
-        ]
+        ],
     )
 
     nirs_channels = NWBGroupSpec(
@@ -209,9 +209,9 @@ def main():
                 name="description",
                 dtype="text",
                 doc="description",
-                default_value="A table describing the optical channels of the device."
+                default_value="A table describing the optical channels of the device.",
             )
-        ]
+        ],
     )
 
     nirs_device = NWBGroupSpec(

@@ -18,32 +18,32 @@ class TestNIRSSourcesTable(TestCase):
 
     def test_empty_constructor(self):
         """Verify that the table can be instantiated with default name and description"""
-        table = NIRSSourcesTable()
+        table = NIRSSourcesTable(description="a desc")
 
         self.assertEqual(table.name, "sources")
         self.assertIsInstance(table.description, str)
 
     def test_add_row_without_optional_z(self):
         """Verify that add_row correctly adds a row when z is omitted"""
-        table = NIRSSourcesTable()
+        table = NIRSSourcesTable(description="a desc")
         table.add_row(label="foo", x=1.0, y=2.0)
 
         self.assertEqual(len(table), 1)
-        self.assertEqual(table.label[0], "foo")
-        self.assertEqual(table.x[0], 1.0)
-        self.assertEqual(table.y[0], 2.0)
-        self.assertIsNone(table.z)
+        self.assertEqual(table["label"][0], "foo")
+        self.assertEqual(table["x"][0], 1.0)
+        self.assertEqual(table["y"][0], 2.0)
+        self.assertFalse("z" in table)
 
     def test_add_row_with_optional_z(self):
         """Verify that add_row correctly adds a row when z is included"""
-        table = NIRSSourcesTable()
+        table = NIRSSourcesTable(description="a desc")
         table.add_row(label="foo", x=1.0, y=2.0, z=3.0)
 
         self.assertEqual(len(table), 1)
-        self.assertEqual(table.label[0], "foo")
-        self.assertEqual(table.x[0], 1.0)
-        self.assertEqual(table.y[0], 2.0)
-        self.assertEqual(table.z[0], 3.0)
+        self.assertEqual(table["label"][0], "foo")
+        self.assertEqual(table["x"][0], 1.0)
+        self.assertEqual(table["y"][0], 2.0)
+        self.assertEqual(table["z"][0], 3.0)
 
 
 class TestNIRSDetectorsTable(TestCase):
@@ -51,37 +51,37 @@ class TestNIRSDetectorsTable(TestCase):
 
     def test_empty_constructor(self):
         """Verify that the table can be instantiated with default name and description"""
-        table = NIRSDetectorsTable()
+        table = NIRSDetectorsTable(description="a desc")
 
         self.assertEqual(table.name, "detectors")
         self.assertIsInstance(table.description, str)
 
     def test_add_row_without_optional_z(self):
         """Verify that add_row correctly adds a row when z is omitted"""
-        table = NIRSDetectorsTable()
+        table = NIRSDetectorsTable(description="a desc")
         table.add_row(label="foo", x=1.0, y=2.0)
 
         self.assertEqual(len(table), 1)
-        self.assertEqual(table.label[0], "foo")
-        self.assertEqual(table.x[0], 1.0)
-        self.assertEqual(table.y[0], 2.0)
-        self.assertIsNone(table.z)
+        self.assertEqual(table["label"][0], "foo")
+        self.assertEqual(table["x"][0], 1.0)
+        self.assertEqual(table["y"][0], 2.0)
+        self.assertFalse("z" in table)
 
     def test_add_row_with_optional_z(self):
         """Verify that add_row correctly adds a row when z is included"""
-        table = NIRSDetectorsTable()
+        table = NIRSDetectorsTable(description="a desc")
         table.add_row(label="foo", x=1.0, y=2.0, z=3.0)
 
         self.assertEqual(len(table), 1)
-        self.assertEqual(table.label[0], "foo")
-        self.assertEqual(table.x[0], 1.0)
-        self.assertEqual(table.y[0], 2.0)
-        self.assertEqual(table.z[0], 3.0)
+        self.assertEqual(table["label"][0], "foo")
+        self.assertEqual(table["x"][0], 1.0)
+        self.assertEqual(table["y"][0], 2.0)
+        self.assertEqual(table["z"][0], 3.0)
 
 
 def create_fake_sources_table():
     """Returns a NIRSSourcesTable which can be used for testing"""
-    table = NIRSSourcesTable()
+    table = NIRSSourcesTable(description="a desc")
     for n in range(7):
         table.add_row({"label": f"S{n+1}", "x": (n % 4) - 1.5, "y": (n % 3) - 1.0})
     return table
@@ -89,7 +89,7 @@ def create_fake_sources_table():
 
 def create_fake_detectors_table():
     """Returns a NIRSDetectorsTable which can be used for testing"""
-    table = NIRSDetectorsTable()
+    table = NIRSDetectorsTable(description="a desc")
     for n in range(4):
         table.add_row({"label": f"D{n+1}", "x": (n % 2) + 0.5, "y": n - 3.5})
     return table
@@ -100,7 +100,9 @@ def create_fake_channels_table():
     sources = create_fake_sources_table()
     detectors = create_fake_detectors_table()
     source_detector_pairs = [(n, n % 5) for n in range(7)]
-    table = NIRSChannelsTable(target_tables={'sources': sources, 'detectors': detectors})
+    table = NIRSChannelsTable(
+        target_tables={"source": sources, "detector": detectors}, description="a desc"
+    )
     ch_id = 0
     for source_idx, detector_idx in source_detector_pairs:
         for wavelength in [690.0, 830.0]:
@@ -121,47 +123,58 @@ class TestNIRSChannelsTable(TestCase):
         """Verify that the table can be instantiated and assigns source and detector tables"""
         sources = create_fake_sources_table()
         detectors = create_fake_detectors_table()
-        table = NIRSChannelsTable(target_tables={'sources': sources, 'detectors': detectors})
+        table = NIRSChannelsTable(
+            target_tables={"source": sources, "detector": detectors},
+            description="a desc",
+        )
 
         self.assertEqual(table.name, "channels")
         self.assertIsInstance(table.description, str)
-        self.assertIs(table.source.table, sources)
-        self.assertIs(table.detector.table, detectors)
+        self.assertIs(table["source"].table, sources)
+        self.assertIs(table["detector"].table, detectors)
 
     def test_set_reference_table(self):
         """Verify that the sources table can be set after instantiation"""
         sources = create_fake_sources_table()
         detectors = create_fake_detectors_table()
-        table = NIRSChannelsTable(target_tables={'sources': sources, 'detectors': detectors})
-        self.assertIs(table.source.table, sources)
-        self.assertIs(table.detector.table, detectors)
+        table = NIRSChannelsTable(
+            target_tables={"source": sources, "detector": detectors},
+            description="a desc",
+        )
+        self.assertIs(table["source"].table, sources)
+        self.assertIs(table["detector"].table, detectors)
 
     def test_add_row_with_the_correct_columns_provided(self):
         """Verify that add_row correctly adds a row when the correct columns are provided"""
         table = NIRSChannelsTable(
             target_tables={
-                'sources': create_fake_sources_table(),
-                'detectors': create_fake_detectors_table()
-            }
+                "source": create_fake_sources_table(),
+                "detector": create_fake_detectors_table(),
+            },
+            description="a desc",
         )
         table.add_row(label="foo", source=6, detector=1, source_wavelength=123.5)
 
         self.assertEqual(len(table), 1)
-        self.assertEqual(table.label[0], "foo")
+        self.assertEqual(table["label"][0], "foo")
         expected_source = pd.DataFrame(
             dict(label="S7", x=0.5, y=-1.0), index=pd.Index([6], name="id")
         )
-        pd.testing.assert_frame_equal(table.source[0], expected_source)
+        pd.testing.assert_frame_equal(table["source"][0], expected_source)
         expected_detector = pd.DataFrame(
             dict(label="D2", x=1.5, y=-2.5), index=pd.Index([1], name="id")
         )
-        pd.testing.assert_frame_equal(table.detector[0], expected_detector)
-        self.assertEqual(table.source_wavelength[0], 123.5)
+        pd.testing.assert_frame_equal(table["detector"][0], expected_detector)
+        self.assertEqual(table["source_wavelength"][0], 123.5)
 
     def test_add_row_with_optional_columns(self):
         """Verify that optional columns can be specified"""
         table = NIRSChannelsTable(
-            create_fake_sources_table(), create_fake_detectors_table()
+            target_tables={
+                "source": create_fake_sources_table(),
+                "detector": create_fake_detectors_table(),
+            },
+            description="a desc",
         )
         table.add_row(
             label="foo",
@@ -173,9 +186,9 @@ class TestNIRSChannelsTable(TestCase):
             detector_gain=5.1,
         )
 
-        self.assertEqual(table.emission_wavelength[0], 234.6)
-        self.assertEqual(table.source_power[0], 11.0)
-        self.assertEqual(table.detector_gain[0], 5.1)
+        self.assertEqual(table["emission_wavelength"][0], 234.6)
+        self.assertEqual(table["source_power"][0], 11.0)
+        self.assertEqual(table["detector_gain"][0], 5.1)
 
 
 class TestNIRSDevice(TestCase):
@@ -189,13 +202,13 @@ class TestNIRSDevice(TestCase):
             description="Foo",
             nirs_mode="time-domain",
             channels=channels,
-            sources=channels.source.table,
-            detectors=channels.detector.table,
+            sources=channels["source"].table,
+            detectors=channels["detector"].table,
         )
         self.assertEqual(device.name, "test_device")
         self.assertIs(device.channels, channels)
-        self.assertIs(device.sources, channels.source.table)
-        self.assertIs(device.detectors, channels.detector.table)
+        self.assertIs(device.sources, channels["source"].table)
+        self.assertIs(device.detectors, channels["detector"].table)
 
     def create_test_device_with_params(self, **kwargs):
         """Returns an initialized NIRSDevice giving it additional kwargs"""
@@ -205,8 +218,8 @@ class TestNIRSDevice(TestCase):
             description="Foo",
             nirs_mode="time-domain",
             channels=channels,
-            sources=channels.source.table,
-            detectors=channels.detector.table,
+            sources=channels["source"].table,
+            detectors=channels["detector"].table,
             **kwargs,
         )
 
