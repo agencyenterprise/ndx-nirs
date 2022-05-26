@@ -4,9 +4,9 @@ This is an NWB extension for storing and sharing near-infrared spectroscopy (NIR
 
 ## Introduction to NIRS
 
-NIRS uses near-infrared sources (from 780 nm to 2500 nm) to assess brain function by detecting changes in blood hemoglobin concentrations. 
+NIRS uses near-infrared sources (from 780 nm to 2500 nm) to assess brain function by detecting changes in blood hemoglobin (Hb) concentrations. 
 
-As neural activity changes, blood volume in the local area changes through the neurovascular coupling phenomenon. NIRS techniques requires optical sources with two or more wavelengths in the near-infrared spectrum. One must have a wavelength above and one below the isosbestic point of 810 nm - the point at which deoxy-Hb and oxy-Hb have identical absorption coefficients. Using the modified Beer-Lambert law (mBLL), NIRS techniques reveal  changes in hemoglobin concentration. NIRS monitors hemoglobin levels through these optical absorption coefficients as a proxy for localized brain activity.
+As neural activity changes, blood volume and the concentration of hemoglobin in the local area changes through the neurovascular coupling phenomenon. NIRS techniques requires optical sources with two or more wavelengths in the near-infrared spectrum. One must have a wavelength above and one below the isosbestic point of 810 nm - the point at which deoxygenated hemoglobin (deoxy-Hb) and oxygenated hemoglobin (oxy-Hb) have identical absorption coefficients. Using the modified Beer-Lambert law (mBLL), NIRS techniques reveal  changes in hemoglobin concentration. NIRS monitors hemoglobin levels through these optical absorption coefficients as a proxy for localized brain activity.
 
 ## Purpose of the extension
 
@@ -79,7 +79,7 @@ Each row of ``NIRSChannelsTable`` represents a specific source and detector pair
     - ``correlation_time_delay_width`` - the correlation time delay width in ns for diffuse correlation spectroscopy NIRS (optional)
     - ``additional_parameters`` - any additional parameters corresponding to the NIRS device/mode that are useful for interpreting the data (optional)
 
-5. ``NIRSSeries`` stores the actual timeseries data collected by the NIRS device
+5. ``NIRSSeries`` stores the actual timeseries data collected by the NIRS device and includes:
     - ``name`` - a unique name for the NIRS timeseries
     - ``description`` - a description of the NIRS timeseries
     - ``timestamps`` - the timestamps for each row of ``data`` in seconds
