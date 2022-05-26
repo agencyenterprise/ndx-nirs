@@ -38,7 +38,7 @@ The NWB NIRS neurodata type was inspired by the [SNIRF](https://fnirs.org/resour
 
 ## NWB NIRS data architecture
 
-The two principal neurodata types of this extension are ``NIRSDevice``, which holds information about the NIRS hardware and software configuration, and ``NIRSSeries``, which contains the timeseries data collected by the NIRS device.
+The two principal neurodata types of this extension are ``NIRSDevice``, which extends the `Device` data type and holds information about the NIRS hardware and software configuration, and ``NIRSSeries``, which contains the timeseries data collected by the NIRS device.
 
 ``NIRSSourcesTable``, ``NIRSDetectorsTable``, and ``NIRSChannelsTable`` are children of ``NIRSDevice`` which describe the source and detector layout as well as the wavelength-specific optical channels that are measured.
 
