@@ -77,17 +77,6 @@ class TestNIRSSourcesTable(TestCase):
         self.assertEqual(table.y[0], 2.0)
         self.assertEqual(table.z[0], 3.0)
 
-    def test_default_description_matches_spec(self):
-        """Verify that the default description in __init__ matches the spec
-
-        Since NIRSSourcesTable has a custom class definition, we need to verify
-        that the default parameter value in __init__ matches the spec.
-        """
-        table = NIRSSourcesTable()
-        spec = get_spec("NIRSSourcesTable")
-        description_spec = filter_spec(spec.attributes, "description")
-        assert table.description == description_spec.default_value
-
 
 class TestNIRSDetectorsTable(TestCase):
     """Unit tests for NIRSDetectorsTable"""
@@ -120,13 +109,6 @@ class TestNIRSDetectorsTable(TestCase):
         self.assertEqual(table.x[0], 1.0)
         self.assertEqual(table.y[0], 2.0)
         self.assertEqual(table.z[0], 3.0)
-
-    def test_default_description_matches_spec(self):
-
-        table = NIRSDetectorsTable()
-        spec = get_spec("NIRSDetectorsTable")
-        description_spec = filter_spec(spec.attributes, "description")
-        assert table.description == description_spec.default_value
 
 
 @pytest.mark.parametrize(
@@ -270,17 +252,6 @@ class TestNIRSChannelsTable(TestCase):
         self.assertEqual(table.emission_wavelength[0], 234.6)
         self.assertEqual(table.source_power[0], 11.0)
         self.assertEqual(table.detector_gain[0], 5.1)
-
-    def test_default_description_matches_spec(self):
-        """Verify that the default description in __init__ matches the spec
-
-        Since NIRSChannelsTable has a custom class definition, we need to verify
-        that the default parameter value in __init__ matches the spec.
-        """
-        table = NIRSChannelsTable()
-        spec = get_spec("NIRSChannelsTable")
-        description_spec = filter_spec(spec.attributes, "description")
-        assert table.description == description_spec.default_value
 
 
 class TestNIRSDevice(TestCase):
