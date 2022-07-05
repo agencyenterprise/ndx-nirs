@@ -211,7 +211,7 @@ def main():
                 name="frequency",
                 doc=(
                     "The modulation frequency in Hz used for frequency domain NIRS."
-                    " if nirs_mode is a type of frequency domain spectroscopy."
+                    " Only used if nirs_mode is a type of frequency domain spectroscopy."
                 ),
                 dtype="float",
                 required=False,
