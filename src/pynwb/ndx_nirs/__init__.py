@@ -50,13 +50,13 @@ def update_docval(overridden_fn, **kwargs):
 sources_docval = update_docval(
     DynamicTable.__init__,
     name={"default": "sources"},
-    description={"default": "A table describing optical sources of a NIRS device"},
+    description={"default": "A table describing the optical sources of a NIRS device."},
 )
 
 
 @register_class("NIRSSourcesTable", "ndx-nirs")
 class NIRSSourcesTable(DynamicTable):
-    """A DynamicTable representing the optical sources of this NIRS device"""
+    """A table describing the optical sources of a NIRS device."""
 
     __columns__ = (
         dict(name="label", description="The label of the optical source"),
@@ -77,13 +77,15 @@ class NIRSSourcesTable(DynamicTable):
 detectors_docval = update_docval(
     DynamicTable.__init__,
     name={"default": "detectors"},
-    description={"default": "A table describing optical detectors of a NIRS device"},
+    description={
+        "default": "A table describing the optical detectors of a NIRS device."
+    },
 )
 
 
 @register_class("NIRSDetectorsTable", "ndx-nirs")
 class NIRSDetectorsTable(DynamicTable):
-    """A DynamicTable representing the optical detectors of this NIRS device"""
+    """A table describing the optical detectors of a NIRS device."""
 
     __columns__ = (
         dict(name="label", description="The label of the optical detector"),
@@ -117,14 +119,16 @@ channels_docval = [
     *update_docval(
         DynamicTable.__init__,
         name={"default": "channels"},
-        description={"default": "A table describing optical channels of a NIRS device"},
+        description={
+            "default": "A table describing the optical channels of a NIRS device."
+        },
     ),
 ]
 
 
 @register_class("NIRSChannelsTable", "ndx-nirs")
 class NIRSChannelsTable(DynamicTable):
-    """A DynamicTable representing the optical channels of this NIRS device"""
+    """A table describing the optical channels of a NIRS device."""
 
     __columns__ = (
         dict(name="label", description="The label of the channel", required=True),
@@ -200,4 +204,7 @@ class NIRSChannelsTable(DynamicTable):
 
 
 NIRSDevice = get_class("NIRSDevice", "ndx-nirs")
+NIRSDevice.__doc__ = "Metadata about a NIRS device."
+
 NIRSSeries = get_class("NIRSSeries", "ndx-nirs")
+NIRSSeries.__doc__ = "A timeseries of recorded NIRS data."

@@ -55,7 +55,7 @@ def main():
         neurodata_type_def="NIRSSourcesTable",
         neurodata_type_inc="DynamicTable",
         default_name="sources",
-        doc="A table describing optical sources of a NIRS device",
+        doc="A table describing the optical sources of a NIRS device.",
         datasets=[
             NWBDatasetSpec(
                 name="label",
@@ -92,7 +92,7 @@ def main():
                 name="description",
                 dtype="text",
                 doc="description",
-                default_value="A table describing the optical sources of the device.",
+                default_value="A table describing the optical sources of a NIRS device.",
             )
         ],
     )
@@ -101,7 +101,7 @@ def main():
         neurodata_type_def="NIRSDetectorsTable",
         neurodata_type_inc="DynamicTable",
         default_name="detectors",
-        doc="A table describing optical detectors of a NIRS device",
+        doc="A table describing the optical detectors of a NIRS device.",
         datasets=[
             NWBDatasetSpec(
                 name="label",
@@ -138,7 +138,7 @@ def main():
                 name="description",
                 dtype="text",
                 doc="description",
-                default_value="A table describing the optical detectors of the device.",
+                default_value="A table describing the optical detectors of a NIRS device.",
             )
         ],
     )
@@ -147,7 +147,7 @@ def main():
         neurodata_type_def="NIRSChannelsTable",
         neurodata_type_inc="DynamicTable",
         default_name="channels",
-        doc="A table describing optical channels of a NIRS device",
+        doc="A table describing the optical channels of a NIRS device.",
         datasets=[
             NWBDatasetSpec(
                 name="label",
@@ -209,7 +209,7 @@ def main():
                 name="description",
                 dtype="text",
                 doc="description",
-                default_value="A table describing the optical channels of the device.",
+                default_value="A table describing the optical channels of a NIRS device.",
             )
         ],
     )
@@ -217,7 +217,7 @@ def main():
     nirs_device = NWBGroupSpec(
         neurodata_type_def="NIRSDevice",
         neurodata_type_inc="Device",
-        doc="A NIRS Device",
+        doc="Metadata about a NIRS device.",
         attributes=[
             NWBAttributeSpec(
                 name="nirs_mode",
@@ -311,7 +311,7 @@ def main():
     nirs_series = NWBGroupSpec(
         neurodata_type_def="NIRSSeries",
         neurodata_type_inc="TimeSeries",
-        doc="A timeseries of NIRS data",
+        doc="A timeseries of recorded NIRS data.",
         datasets=[
             NWBDatasetSpec(
                 name="channels",
