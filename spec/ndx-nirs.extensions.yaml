@@ -138,8 +138,8 @@ groups:
       as well as variants including fluorescence.
   - name: frequency
     dtype: float
-    doc: The modulation frequency in Hz used for frequency domain NIRS. if nirs_mode
-      is a type of frequency domain spectroscopy.
+    doc: The modulation frequency in Hz used for frequency domain NIRS. Only used
+      if nirs_mode is a type of frequency domain spectroscopy.
     required: false
   - name: time_delay
     dtype: float
