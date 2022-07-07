@@ -1,6 +1,12 @@
 # ndx-nirs Extension for NWB
 
-This is an NWB extension for storing and sharing near-infrared spectroscopy (NIRS) data. 
+This is an [NWB](https://www.nwb.org/) extension for storing and sharing near-infrared spectroscopy (NIRS) data.
+
+If you're new to NWB: "Neurodata Without Borders (NWB) is a data standard for neurophysiology, providing neuroscientists with a common standard to share, archive, use, and build common analysis tools for neurophysiology data." ([source](https://www.nwb.org/nwb-neurophysiology/))
+
+This extension defines the data specification for NIRS data in addition to providing a python API for reading and writing .nwb files containing data that follows this specification. The python package can be used with [pyNWB](https://github.com/NeurodataWithoutBorders/pynwb).
+
+This extension along with others can be found in the [Neurodata Extensions Catalog](https://nwb-extensions.github.io/).
 
 ## Introduction to NIRS
 
