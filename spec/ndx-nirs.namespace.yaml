@@ -7,7 +7,7 @@ namespaces:
   - sumner@ae.studio
   - darin@ae.studio
   - jose@ae.studio
-  doc: An NWB extension for storing Near-Infrared Spectroscopy (NIRS) data
+  doc: An NWB extension for storing Near-Infrared Spectroscopy (NIRS) data.
   name: ndx-nirs
   schema:
   - namespace: core
