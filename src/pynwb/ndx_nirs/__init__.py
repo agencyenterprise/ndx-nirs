@@ -200,7 +200,7 @@ class NIRSChannelsTable(DynamicTable):
 
     @docval(*_channels_docval, allow_positional=AllowPositional.ERROR)
     def __init__(self, **kwargs):
-        """Initializes a NIRSDetectorsTable instance.
+        """Initializes a NIRSChannelsTable instance.
 
         Users should only use the following parameters:
             (name, description, sources, detectors)

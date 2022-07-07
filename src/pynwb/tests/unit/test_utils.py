@@ -22,53 +22,6 @@ def test_update_docval_does_not_modify_original_docval():
     assert "default" not in original_docval[0]
 
 
-def test_update_docval_cannot_use_both_keep_and_remove():
-    """Verifies that an exception is raised if both keep and remove are used"""
-    with pytest.raises(ValueError):
-        _ = update_docval(
-            fake_function,
-            keep=["baz"],
-            remove=["foo"],
-        )
-
-
-def test_update_docval_keep_should_filter_parameters():
-    """Verify that use of 'keep' keeps only the specified parameters"""
-    new_docval = update_docval(fake_function, keep=["foo", "baz"])
-    assert len(new_docval) == 2
-    assert new_docval[0]["name"] == "foo"
-    assert new_docval[1]["name"] == "baz"
-
-
-def test_update_docval_with_invalid_name_in_keep_list():
-    """Verify than an exception is raised if the keep list contains the name of
-    a non-existing docval item
-    """
-    with pytest.raises(ValueError):
-        _ = update_docval(
-            fake_function,
-            keep=["nonexistant_item"],
-        )
-
-
-def test_update_docval_remove_should_filter_parameters():
-    """Verify that use of 'remove' removes only the specified parameters"""
-    new_docval = update_docval(fake_function, remove=["foo", "baz"])
-    assert len(new_docval) == 1
-    assert new_docval[0]["name"] == "bar"
-
-
-def test_update_docval_with_invalid_name_in_remove_list():
-    """Verify than an exception is raised if the remove list contains the name of
-    a non-existing docval item
-    """
-    with pytest.raises(ValueError):
-        _ = update_docval(
-            fake_function,
-            remove=["nonexistant_item"],
-        )
-
-
 def test_update_docval_correctly_updates_fields():
     """Verify that update_docval correctly updates the new docval"""
     new_docval = update_docval(
