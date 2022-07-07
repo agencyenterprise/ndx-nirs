@@ -5,10 +5,11 @@ Upcoming:
 -------
 
 Improvements:
-  - update ``pywnb`` and ``hdmf`` dependencies to use the newest versions
-  - update supported python versions to include 3.7, 3.8, 3.9, and 3.10
-  - specified that all source and detector positions should be measured in meters and updated documentation accordingly
-
+  - update ``pywnb`` and ``hdmf`` dependencies to use the newest versions (@dsleiter)
+  - update supported python versions to include 3.7, 3.8, 3.9, and 3.10 (@dsleiter)
+  - specify that all source and detector positions should be measured in meters and update documentation accordingly (@dsleiter)
+  - improve documentation (@rob-luke)
+  - improve container class __init__ docstrings and require keyword-only arguments (@dsleiter)
 
 v0.2.0 (June 1, 2021):
 -------
