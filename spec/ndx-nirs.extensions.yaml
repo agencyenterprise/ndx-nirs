@@ -15,19 +15,19 @@ groups:
     dtype: float
     shape:
     - null
-    doc: The x coordinate of the optical source
+    doc: The x coordinate in meters of the optical source
   - name: y
     neurodata_type_inc: VectorData
     dtype: float
     shape:
     - null
-    doc: The y coordinate of the optical source
+    doc: The y coordinate in meters of the optical source
   - name: z
     neurodata_type_inc: VectorData
     dtype: float
     shape:
     - null
-    doc: The z coordinate of the optical source
+    doc: The z coordinate in meters of the optical source
     quantity: '?'
 - neurodata_type_def: NIRSDetectorsTable
   neurodata_type_inc: DynamicTable
@@ -45,19 +45,19 @@ groups:
     dtype: float
     shape:
     - null
-    doc: The x coordinate of the optical detector
+    doc: The x coordinate in meters of the optical detector
   - name: y
     neurodata_type_inc: VectorData
     dtype: float
     shape:
     - null
-    doc: The y coordinate of the optical detector
+    doc: The y coordinate in meters of the optical detector
   - name: z
     neurodata_type_inc: VectorData
     dtype: float
     shape:
     - null
-    doc: The z coordinate of the optical detector
+    doc: The z coordinate in meters of the optical detector
     quantity: '?'
 - neurodata_type_def: NIRSChannelsTable
   neurodata_type_inc: DynamicTable
@@ -120,8 +120,8 @@ groups:
       as well as variants including fluorescence.
   - name: frequency
     dtype: float
-    doc: The modulation frequency in Hz used for frequency domain NIRS. if nirs_mode
-      is a type of frequency domain spectroscopy.
+    doc: The modulation frequency in Hz used for frequency domain NIRS. Only used
+      if nirs_mode is a type of frequency domain spectroscopy.
     required: false
   - name: time_delay
     dtype: float

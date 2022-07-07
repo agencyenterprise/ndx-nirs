@@ -1,10 +1,10 @@
 import os
-from copy import deepcopy
 from pynwb import load_namespaces, get_class, register_class
 
-
 from hdmf.common import DynamicTable
-from hdmf.utils import docval, call_docval_func, get_docval, getargs, popargs
+from hdmf.utils import docval, getargs, popargs, AllowPositional
+
+from ndx_nirs.utils import update_docval
 
 
 # Set path of the namespace.yaml file to the expected install location
@@ -33,27 +33,12 @@ load_namespaces(ndx_nirs_specpath)
 # them accessible at the package level
 
 
-def update_docval(overridden_fn, **kwargs):
-    """Copy the docval from an existing function and update specified parameters"""
-    original_docval = get_docval(overridden_fn)
-    new_docval = deepcopy(original_docval)
-    for name, update_vals in kwargs.items():
-        for item in new_docval:
-            if item["name"] == name:
-                item.update(update_vals)
-                break
-        else:
-            msg = "docval item named {} does not exist for function {}".format(
-                name, overridden_fn.__name__
-            )
-            raise ValueError(msg)
-    return new_docval
-
-
-sources_docval = update_docval(
+_sources_docval = update_docval(
     DynamicTable.__init__,
-    name={"default": "sources"},
-    description={"default": "A table describing optical sources of a NIRS device"},
+    updates=dict(
+        name={"default": "sources"},
+        description={"default": "A table describing optical sources of a NIRS device"},
+    ),
 )
 
 
@@ -72,15 +57,27 @@ class NIRSSourcesTable(DynamicTable):
         ),
     )
 
-    @docval(*sources_docval)
+    @docval(*_sources_docval, allow_positional=AllowPositional.ERROR)
     def __init__(self, **kwargs):
-        call_docval_func(super().__init__, kwargs)
+        """Initializes a NIRSSourcesTable instance.
+
+        Users should only use the following parameters:
+            (name, description)
+        The following should only be the build backend for constructing containers
+        when loading an nwb file from disk:
+            (id, columns, colnames)
+        """
+        super().__init__(**kwargs)
 
 
-detectors_docval = update_docval(
+_detectors_docval = update_docval(
     DynamicTable.__init__,
-    name={"default": "detectors"},
-    description={"default": "A table describing optical detectors of a NIRS device"},
+    updates=dict(
+        name={"default": "detectors"},
+        description={
+            "default": "A table describing optical detectors of a NIRS device"
+        },
+    ),
 )
 
 
@@ -99,12 +96,20 @@ class NIRSDetectorsTable(DynamicTable):
         ),
     )
 
-    @docval(*detectors_docval)
+    @docval(*_detectors_docval, allow_positional=AllowPositional.ERROR)
     def __init__(self, **kwargs):
-        call_docval_func(super().__init__, kwargs)
+        """Initializes a NIRSDetectorsTable instance.
+
+        Users should only use the following parameters:
+            (name, description)
+        The following should only be the build backend for constructing containers
+        when loading an nwb file from disk:
+            (id, columns, colnames)
+        """
+        super().__init__(**kwargs)
 
 
-channels_docval = [
+_channels_docval = [
     {
         "name": "sources",
         "type": NIRSSourcesTable,
@@ -119,15 +124,39 @@ channels_docval = [
     },
     *update_docval(
         DynamicTable.__init__,
-        name={"default": "channels"},
-        description={"default": "A table describing optical channels of a NIRS device"},
+        updates=dict(
+            name={"default": "channels"},
+            description={
+                "default": "A table describing optical channels of a NIRS device"
+            },
+        ),
     ),
 ]
 
 
 @register_class("NIRSChannelsTable", "ndx-nirs")
 class NIRSChannelsTable(DynamicTable):
-    """A DynamicTable representing the optical channels of this NIRS device"""
+    """A DynamicTable representing the optical channels of this NIRS device.
+
+    Before adding channels to the table, the sources and detectors for the
+    device need to be defined in a NIRSSourcesTable and a NIRSDetectorsTable,
+    respectively. These can be passed in either during class initializing or
+    afterwards.
+
+    Examples:
+    ```
+    sources = NIRSSourcesTable()
+    detectors = NIRSDetectorsTable()
+
+    # during initialization:
+    channels = NIRSChannelsTable(sources=sources, detectors=detectors)
+
+    # after initialization:
+    channels = NIRSChannelsTable()
+    channels.set_sources_table(sources)
+    channels.set_detectors_table(detectors)
+    ```
+    """
 
     __columns__ = (
         dict(name="label", description="The label of the channel", required=True),
@@ -169,13 +198,24 @@ class NIRSChannelsTable(DynamicTable):
         ),
     )
 
-    @docval(*channels_docval)
+    @docval(*_channels_docval, allow_positional=AllowPositional.ERROR)
     def __init__(self, **kwargs):
+        """Initializes a NIRSDetectorsTable instance.
+
+        Users should only use the following parameters:
+            (name, description, sources, detectors)
+        The following should only be the build backend for constructing containers
+        when loading an nwb file from disk:
+            (id, columns, colnames)
+        """
+        print(kwargs)
         sources = popargs("sources", kwargs)
         detectors = popargs("detectors", kwargs)
-        call_docval_func(super().__init__, kwargs)
-        self.source.table = sources
-        self.detector.table = detectors
+        super().__init__(**kwargs)
+        if sources is not None:
+            self.set_sources_table(sources)
+        if detectors is not None:
+            self.set_detectors_table(detectors)
 
     @docval(
         {
