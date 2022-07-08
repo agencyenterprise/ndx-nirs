@@ -6,7 +6,7 @@ If you're new to NWB: "Neurodata Without Borders (NWB) is a data standard for ne
 
 This extension defines the data specification for NIRS data in addition to providing a python API for reading and writing .nwb files containing data that follows this specification. The python package can be used with [pyNWB](https://github.com/NeurodataWithoutBorders/pynwb).
 
-This extension along with others can be found in the [Neurodata Extensions Catalog](https://nwb-extensions.github.io/).
+This extension has been officially accepted into the [Neurodata Extensions Catalog](https://nwb-extensions.github.io/) and can be found there along with other accepted extensions.
 
 ## Introduction to NIRS
 
