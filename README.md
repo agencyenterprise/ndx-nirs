@@ -181,7 +181,7 @@ for i_detector in range(0, len(detector_labels)):
 
 # create a NIRSChannelsTable which defines the channels
 # between the provided sources and detectors
-channels = NIRSChannelsTable(sources, detectors)
+channels = NIRSChannelsTable(sources=sources, detectors=detectors)
 # each channel is composed of a single source, a single detector, and the wavelength
 # most source-detector pairs will use two separate wavelengths, and have two channels
 for i_source, i_detector in source_detector_pairs:
