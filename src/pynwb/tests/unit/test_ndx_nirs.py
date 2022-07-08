@@ -2,6 +2,7 @@ import pytest
 import pandas as pd
 import numpy as np
 
+import pynwb
 from pynwb.testing import TestCase
 from hdmf.utils import get_docval
 from hdmf.common import DynamicTable, DynamicTableRegion
@@ -108,6 +109,47 @@ class TestNIRSDetectorsTable(TestCase):
         self.assertEqual(table.x[0], 1.0)
         self.assertEqual(table.y[0], 2.0)
         self.assertEqual(table.z[0], 3.0)
+
+
+@pytest.mark.parametrize(
+    "table_type", [NIRSSourcesTable, NIRSDetectorsTable, NIRSChannelsTable]
+)
+def test_default_description_matches_spec(table_type):
+    """For each type, verify that the default description in __init__ matches the spec
+
+    To ensure internal consistency, we want the the default value of the description parameter
+    in the initializer to match the 'default_value' field of the description spec.
+    """
+    table = table_type()
+    spec = get_spec(table_type.__name__)
+    description_spec = filter_spec(spec.attributes, "description")
+    assert table.description == description_spec.default_value
+
+
+def get_spec(type_name, namespace="ndx-nirs"):
+    """Returns the spec for a pynwb type"""
+    manager = pynwb.get_manager()
+    catalog = manager.namespace_catalog
+    return catalog.get_spec(namespace, type_name)
+
+
+def filter_spec(spec_list, spec_name):
+    """Returns the first spec which has a name equal to spec_name"""
+    return next(filter(lambda s: s.name == spec_name, spec_list))
+
+
+@pytest.mark.parametrize(
+    "container_type",
+    [NIRSSourcesTable, NIRSDetectorsTable, NIRSChannelsTable, NIRSSeries, NIRSDevice],
+)
+def test_type_docstring_matches_type_spec(container_type):
+    """For each container, verify that the class docstring begins with the 'doc' field of the spec
+
+    To ensure internal consistency, we want the docstring of each container class to begin with
+    the text in the 'doc' field of the spec for the neurodata type.
+    """
+    spec = get_spec(container_type.__name__)
+    assert container_type.__doc__.startswith(spec.doc)
 
 
 def create_fake_sources_table():
