@@ -23,7 +23,6 @@ class TestNIRSSourcesTable(TestCase):
 
         self.assertEqual(table.name, "sources")
         self.assertIsInstance(table.description, str)
-        # assert False
 
     def test_add_row_without_optional_z(self):
         """Verify that add_row correctly adds a row when z is omitted"""

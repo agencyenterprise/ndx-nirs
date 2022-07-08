@@ -144,7 +144,7 @@ class NIRSChannelsTable(DynamicTable):
     afterwards.
 
     Examples:
-    ```
+    ```python
     sources = NIRSSourcesTable()
     detectors = NIRSDetectorsTable()
 
