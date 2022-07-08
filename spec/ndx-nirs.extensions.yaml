@@ -7,7 +7,7 @@ groups:
   - name: description
     dtype: text
     default_value: A table describing the optical sources of a NIRS device.
-    doc: description
+    doc: A description of this NIRSSourcesTable.
     required: false
   datasets:
   - name: label
@@ -15,25 +15,25 @@ groups:
     dtype: text
     shape:
     - null
-    doc: The label of the source
+    doc: The label of the source.
   - name: x
     neurodata_type_inc: VectorData
     dtype: float
     shape:
     - null
-    doc: The x coordinate in meters of the optical source
+    doc: The x coordinate in meters of the optical source.
   - name: y
     neurodata_type_inc: VectorData
     dtype: float
     shape:
     - null
-    doc: The y coordinate in meters of the optical source
+    doc: The y coordinate in meters of the optical source.
   - name: z
     neurodata_type_inc: VectorData
     dtype: float
     shape:
     - null
-    doc: The z coordinate in meters of the optical source
+    doc: The z coordinate in meters of the optical source.
     quantity: '?'
 - neurodata_type_def: NIRSDetectorsTable
   neurodata_type_inc: DynamicTable
@@ -43,7 +43,7 @@ groups:
   - name: description
     dtype: text
     default_value: A table describing the optical detectors of a NIRS device.
-    doc: description
+    doc: A description of this NIRSDetectorsTable.
     required: false
   datasets:
   - name: label
@@ -51,25 +51,25 @@ groups:
     dtype: text
     shape:
     - null
-    doc: The label of the detector
+    doc: The label of the detector.
   - name: x
     neurodata_type_inc: VectorData
     dtype: float
     shape:
     - null
-    doc: The x coordinate in meters of the optical detector
+    doc: The x coordinate in meters of the optical detector.
   - name: y
     neurodata_type_inc: VectorData
     dtype: float
     shape:
     - null
-    doc: The y coordinate in meters of the optical detector
+    doc: The y coordinate in meters of the optical detector.
   - name: z
     neurodata_type_inc: VectorData
     dtype: float
     shape:
     - null
-    doc: The z coordinate in meters of the optical detector
+    doc: The z coordinate in meters of the optical detector.
     quantity: '?'
 - neurodata_type_def: NIRSChannelsTable
   neurodata_type_inc: DynamicTable
@@ -79,7 +79,7 @@ groups:
   - name: description
     dtype: text
     default_value: A table describing the optical channels of a NIRS device.
-    doc: description
+    doc: A description of this NIRSChannelsTable.
     required: false
   datasets:
   - name: label
@@ -87,12 +87,12 @@ groups:
     dtype: text
     shape:
     - null
-    doc: The label of the channel
+    doc: The label of the channel.
   - name: source
     neurodata_type_inc: DynamicTableRegion
     shape:
     - null
-    doc: A reference to the optical source for this channel in NIRSSourcesTable
+    doc: A reference to the optical source for this channel in NIRSSourcesTable.
   - name: detector
     neurodata_type_inc: DynamicTableRegion
     shape:
@@ -110,7 +110,7 @@ groups:
     shape:
     - null
     doc: The wavelength of light in nm emitted by the fluorophore under fluorescent
-      spectroscopy for this channel. Only used for fluorescent spectroscopy
+      spectroscopy for this channel. Only used for fluorescent spectroscopy.
     quantity: '?'
   - name: source_power
     neurodata_type_inc: VectorData
@@ -169,13 +169,13 @@ groups:
   groups:
   - name: channels
     neurodata_type_inc: NIRSChannelsTable
-    doc: A table of the optical channels available on this device
+    doc: A table of the optical channels available on this device.
   - name: sources
     neurodata_type_inc: NIRSSourcesTable
-    doc: The optical sources of this device
+    doc: The optical sources of this device.
   - name: detectors
     neurodata_type_inc: NIRSDetectorsTable
-    doc: The optical detectors of this device
+    doc: The optical detectors of this device.
 - neurodata_type_def: NIRSSeries
   neurodata_type_inc: TimeSeries
   doc: A timeseries of recorded NIRS data.
@@ -183,4 +183,4 @@ groups:
   - name: channels
     neurodata_type_inc: DynamicTableRegion
     doc: DynamicTableRegion reference to the optical channels represented by this
-      NIRSSeries
+      NIRSSeries.

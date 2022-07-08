@@ -46,12 +46,12 @@ class NIRSSourcesTable(DynamicTable):
     """A table describing the optical sources of a NIRS device."""
 
     __columns__ = (
-        dict(name="label", description="The label of the optical source"),
-        dict(name="x", description="The x coordinate of the optical source"),
-        dict(name="y", description="The y coordinate of the optical source"),
+        dict(name="label", description="The label of the optical source."),
+        dict(name="x", description="The x coordinate of the optical source."),
+        dict(name="y", description="The y coordinate of the optical source."),
         dict(
             name="z",
-            description="The z coordinate of the optical source",
+            description="The z coordinate of the optical source.",
             required=False,
         ),
     )
@@ -85,12 +85,12 @@ class NIRSDetectorsTable(DynamicTable):
     """A table describing the optical detectors of a NIRS device."""
 
     __columns__ = (
-        dict(name="label", description="The label of the optical detector"),
-        dict(name="x", description="The x coordinate of the optical detector"),
-        dict(name="y", description="The y coordinate of the optical detector"),
+        dict(name="label", description="The label of the optical detector."),
+        dict(name="x", description="The x coordinate of the optical detector."),
+        dict(name="y", description="The y coordinate of the optical detector."),
         dict(
             name="z",
-            description="The z coordinate of the optical detector",
+            description="The z coordinate of the optical detector.",
             required=False,
         ),
     )
@@ -112,13 +112,13 @@ _channels_docval = [
     {
         "name": "sources",
         "type": NIRSSourcesTable,
-        "doc": "The table that is referenced by the source column",
+        "doc": "The table that is referenced by the source column.",
         "default": None,
     },
     {
         "name": "detectors",
         "type": NIRSDetectorsTable,
-        "doc": "The table that is referenced by the detector column",
+        "doc": "The table that is referenced by the detector column.",
         "default": None,
     },
     *update_docval(
@@ -161,13 +161,13 @@ class NIRSChannelsTable(DynamicTable):
         dict(name="label", description="The label of the channel", required=True),
         dict(
             name="source",
-            description="A reference to the optical source for this channel in NIRSSourcesTable",
+            description="A reference to the optical source for this channel in NIRSSourcesTable.",
             required=True,
             table=True,
         ),
         dict(
             name="detector",
-            description="A reference to the optical detector for this channel in NIRSDetectorsTable",
+            description="A reference to the optical detector for this channel in NIRSDetectorsTable.",
             required=True,
             table=True,
         ),
@@ -181,7 +181,7 @@ class NIRSChannelsTable(DynamicTable):
             description=(
                 "The wavelength of light in nm emitted by the fluorophore under "
                 "fluorescent spectroscopy for this channel. Only used for fluorescent"
-                " spectroscopy"
+                " spectroscopy."
             ),
             required=False,
         ),
@@ -220,11 +220,11 @@ class NIRSChannelsTable(DynamicTable):
         {
             "name": "sources",
             "type": NIRSSourcesTable,
-            "doc": "The table that is referenced by the source column",
+            "doc": "The table that is referenced by the source column.",
         }
     )
     def set_sources_table(self, **kwargs):
-        """Assigns the NIRSourcesTable which should be referenced by the source column"""
+        """Assigns the NIRSourcesTable which should be referenced by the source column."""
         sources = getargs("sources", kwargs)
         self.source.table = sources
 
@@ -232,11 +232,11 @@ class NIRSChannelsTable(DynamicTable):
         {
             "name": "detectors",
             "type": NIRSDetectorsTable,
-            "doc": "The table that is referenced by the detector column",
+            "doc": "The table that is referenced by the detector column.",
         }
     )
     def set_detectors_table(self, **kwargs):
-        """Assigns the NIRDetectorsTable which should be referenced by the detector column"""
+        """Assigns the NIRDetectorsTable which should be referenced by the detector column."""
         detectors = getargs("detectors", kwargs)
         self.detector.table = detectors
 

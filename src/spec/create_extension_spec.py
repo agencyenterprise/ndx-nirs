@@ -12,7 +12,7 @@ from pynwb.spec import (
 def main():
     # these arguments were auto-generated from your cookiecutter inputs
     ns_builder = NWBNamespaceBuilder(
-        doc="""An NWB extension for storing Near-Infrared Spectroscopy (NIRS) data""",
+        doc="""An NWB extension for storing Near-Infrared Spectroscopy (NIRS) data.""",
         name="""ndx-nirs""",
         version="""0.2.0""",
         author=list(
@@ -59,28 +59,28 @@ def main():
         datasets=[
             NWBDatasetSpec(
                 name="label",
-                doc="The label of the source",
+                doc="The label of the source.",
                 dtype="text",
                 shape=(None,),
                 neurodata_type_inc="VectorData",
             ),
             NWBDatasetSpec(
                 name="x",
-                doc="The x coordinate in meters of the optical source",
+                doc="The x coordinate in meters of the optical source.",
                 dtype="float",
                 shape=(None,),
                 neurodata_type_inc="VectorData",
             ),
             NWBDatasetSpec(
                 name="y",
-                doc="The y coordinate in meters of the optical source",
+                doc="The y coordinate in meters of the optical source.",
                 dtype="float",
                 shape=(None,),
                 neurodata_type_inc="VectorData",
             ),
             NWBDatasetSpec(
                 name="z",
-                doc="The z coordinate in meters of the optical source",
+                doc="The z coordinate in meters of the optical source.",
                 dtype="float",
                 shape=(None,),
                 neurodata_type_inc="VectorData",
@@ -91,7 +91,7 @@ def main():
             NWBAttributeSpec(
                 name="description",
                 dtype="text",
-                doc="description",
+                doc="A description of this NIRSSourcesTable.",
                 default_value="A table describing the optical sources of a NIRS device.",
             )
         ],
@@ -105,28 +105,28 @@ def main():
         datasets=[
             NWBDatasetSpec(
                 name="label",
-                doc="The label of the detector",
+                doc="The label of the detector.",
                 dtype="text",
                 shape=(None,),
                 neurodata_type_inc="VectorData",
             ),
             NWBDatasetSpec(
                 name="x",
-                doc="The x coordinate in meters of the optical detector",
+                doc="The x coordinate in meters of the optical detector.",
                 dtype="float",
                 shape=(None,),
                 neurodata_type_inc="VectorData",
             ),
             NWBDatasetSpec(
                 name="y",
-                doc="The y coordinate in meters of the optical detector",
+                doc="The y coordinate in meters of the optical detector.",
                 dtype="float",
                 shape=(None,),
                 neurodata_type_inc="VectorData",
             ),
             NWBDatasetSpec(
                 name="z",
-                doc="The z coordinate in meters of the optical detector",
+                doc="The z coordinate in meters of the optical detector.",
                 dtype="float",
                 shape=(None,),
                 neurodata_type_inc="VectorData",
@@ -137,7 +137,7 @@ def main():
             NWBAttributeSpec(
                 name="description",
                 dtype="text",
-                doc="description",
+                doc="A description of this NIRSDetectorsTable.",
                 default_value="A table describing the optical detectors of a NIRS device.",
             )
         ],
@@ -151,14 +151,14 @@ def main():
         datasets=[
             NWBDatasetSpec(
                 name="label",
-                doc="The label of the channel",
+                doc="The label of the channel.",
                 dtype="text",
                 shape=(None,),
                 neurodata_type_inc="VectorData",
             ),
             NWBDatasetSpec(
                 name="source",
-                doc="A reference to the optical source for this channel in NIRSSourcesTable",
+                doc="A reference to the optical source for this channel in NIRSSourcesTable.",
                 shape=(None,),
                 neurodata_type_inc="DynamicTableRegion",
             ),
@@ -180,7 +180,7 @@ def main():
                 doc=(
                     "The wavelength of light in nm emitted by the fluorophore under "
                     "fluorescent spectroscopy for this channel. Only used for fluorescent"
-                    " spectroscopy"
+                    " spectroscopy."
                 ),
                 dtype="float",
                 shape=(None,),
@@ -208,7 +208,7 @@ def main():
             NWBAttributeSpec(
                 name="description",
                 dtype="text",
-                doc="description",
+                doc="A description of this NIRSChannelsTable.",
                 default_value="A table describing the optical channels of a NIRS device.",
             )
         ],
@@ -292,17 +292,17 @@ def main():
         groups=[
             NWBGroupSpec(
                 name="channels",
-                doc="A table of the optical channels available on this device",
+                doc="A table of the optical channels available on this device.",
                 neurodata_type_inc="NIRSChannelsTable",
             ),
             NWBGroupSpec(
                 name="sources",
-                doc="The optical sources of this device",
+                doc="The optical sources of this device.",
                 neurodata_type_inc="NIRSSourcesTable",
             ),
             NWBGroupSpec(
                 name="detectors",
-                doc="The optical detectors of this device",
+                doc="The optical detectors of this device.",
                 neurodata_type_inc="NIRSDetectorsTable",
             ),
         ],
@@ -315,7 +315,7 @@ def main():
         datasets=[
             NWBDatasetSpec(
                 name="channels",
-                doc="DynamicTableRegion reference to the optical channels represented by this NIRSSeries",
+                doc="DynamicTableRegion reference to the optical channels represented by this NIRSSeries.",
                 neurodata_type_inc="DynamicTableRegion",
             )
         ],
