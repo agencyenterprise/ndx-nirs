@@ -29,22 +29,21 @@ if not os.path.exists(ndx_nirs_specpath):
 # Load the namespace
 load_namespaces(ndx_nirs_specpath)
 
-# TODO: import your classes here or define your class using get_class to make
-# them accessible at the package level
-
 
 _sources_docval = update_docval(
     DynamicTable.__init__,
     updates=dict(
         name={"default": "sources"},
-        description={"default": "A table describing optical sources of a NIRS device"},
+        description={
+            "default": "A table describing the optical sources of a NIRS device."
+        },
     ),
 )
 
 
 @register_class("NIRSSourcesTable", "ndx-nirs")
 class NIRSSourcesTable(DynamicTable):
-    """A DynamicTable representing the optical sources of this NIRS device"""
+    """A table describing the optical sources of a NIRS device."""
 
     __columns__ = (
         dict(name="label", description="The label of the optical source"),
@@ -75,7 +74,7 @@ _detectors_docval = update_docval(
     updates=dict(
         name={"default": "detectors"},
         description={
-            "default": "A table describing optical detectors of a NIRS device"
+            "default": "A table describing the optical detectors of a NIRS device."
         },
     ),
 )
@@ -83,7 +82,7 @@ _detectors_docval = update_docval(
 
 @register_class("NIRSDetectorsTable", "ndx-nirs")
 class NIRSDetectorsTable(DynamicTable):
-    """A DynamicTable representing the optical detectors of this NIRS device"""
+    """A table describing the optical detectors of a NIRS device."""
 
     __columns__ = (
         dict(name="label", description="The label of the optical detector"),
@@ -127,7 +126,7 @@ _channels_docval = [
         updates=dict(
             name={"default": "channels"},
             description={
-                "default": "A table describing optical channels of a NIRS device"
+                "default": "A table describing the optical channels of a NIRS device."
             },
         ),
     ),
@@ -136,7 +135,7 @@ _channels_docval = [
 
 @register_class("NIRSChannelsTable", "ndx-nirs")
 class NIRSChannelsTable(DynamicTable):
-    """A DynamicTable representing the optical channels of this NIRS device.
+    """A table describing the optical channels of a NIRS device.
 
     Before adding channels to the table, the sources and detectors for the
     device need to be defined in a NIRSSourcesTable and a NIRSDetectorsTable,
@@ -243,4 +242,7 @@ class NIRSChannelsTable(DynamicTable):
 
 
 NIRSDevice = get_class("NIRSDevice", "ndx-nirs")
+NIRSDevice.__doc__ = "Metadata about a NIRS device."
+
 NIRSSeries = get_class("NIRSSeries", "ndx-nirs")
+NIRSSeries.__doc__ = "A timeseries of recorded NIRS data."

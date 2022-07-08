@@ -14,6 +14,7 @@ José Ribeiro (@ribeirojose)
 
 Contributors
 ============
+Ben Dichter (@bendichter)
 Rob Luke (@rob-luke)
 
 *****
