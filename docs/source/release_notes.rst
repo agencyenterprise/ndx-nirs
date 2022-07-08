@@ -10,6 +10,7 @@ Improvements:
   - improve documentation. @rob-luke (#26)
   - improve specs and enforce consistency of container class docstring and default description. @bendichter, @dsleiter (#8)
   - improve container class __init__ docstrings and require keyword-only arguments. @dsleiter (#29)
+  - improve documentation and consistency in use of periods. @dsleiter (#30)
 
 v0.2.0 (June 1, 2021):
 -------

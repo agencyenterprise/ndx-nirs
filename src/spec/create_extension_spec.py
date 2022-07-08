@@ -59,7 +59,7 @@ def main():
         datasets=[
             NWBDatasetSpec(
                 name="label",
-                doc="The label of the source",
+                doc="The label of the source.",
                 dtype="text",
                 shape=(None,),
                 neurodata_type_inc="VectorData",
@@ -91,7 +91,7 @@ def main():
             NWBAttributeSpec(
                 name="description",
                 dtype="text",
-                doc="description",
+                doc="A description of this NIRSSourcesTable.",
                 default_value="A table describing the optical sources of a NIRS device.",
             )
         ],
@@ -105,7 +105,7 @@ def main():
         datasets=[
             NWBDatasetSpec(
                 name="label",
-                doc="The label of the detector",
+                doc="The label of the detector.",
                 dtype="text",
                 shape=(None,),
                 neurodata_type_inc="VectorData",
@@ -137,7 +137,7 @@ def main():
             NWBAttributeSpec(
                 name="description",
                 dtype="text",
-                doc="description",
+                doc="A description of this NIRSDetectorsTable.",
                 default_value="A table describing the optical detectors of a NIRS device.",
             )
         ],
@@ -151,7 +151,7 @@ def main():
         datasets=[
             NWBDatasetSpec(
                 name="label",
-                doc="The label of the channel",
+                doc="The label of the channel.",
                 dtype="text",
                 shape=(None,),
                 neurodata_type_inc="VectorData",
@@ -208,7 +208,7 @@ def main():
             NWBAttributeSpec(
                 name="description",
                 dtype="text",
-                doc="description",
+                doc="A description of this NIRSChannelsTable.",
                 default_value="A table describing the optical channels of a NIRS device.",
             )
         ],

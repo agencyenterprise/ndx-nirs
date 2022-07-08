@@ -7,7 +7,7 @@ groups:
   - name: description
     dtype: text
     default_value: A table describing the optical sources of a NIRS device.
-    doc: description
+    doc: A description of this NIRSSourcesTable.
     required: false
   datasets:
   - name: label
@@ -15,7 +15,7 @@ groups:
     dtype: text
     shape:
     - null
-    doc: The label of the source
+    doc: The label of the source.
   - name: x
     neurodata_type_inc: VectorData
     dtype: float
@@ -43,7 +43,7 @@ groups:
   - name: description
     dtype: text
     default_value: A table describing the optical detectors of a NIRS device.
-    doc: description
+    doc: A description of this NIRSDetectorsTable.
     required: false
   datasets:
   - name: label
@@ -51,7 +51,7 @@ groups:
     dtype: text
     shape:
     - null
-    doc: The label of the detector
+    doc: The label of the detector.
   - name: x
     neurodata_type_inc: VectorData
     dtype: float
@@ -79,7 +79,7 @@ groups:
   - name: description
     dtype: text
     default_value: A table describing the optical channels of a NIRS device.
-    doc: description
+    doc: A description of this NIRSChannelsTable.
     required: false
   datasets:
   - name: label
@@ -87,7 +87,7 @@ groups:
     dtype: text
     shape:
     - null
-    doc: The label of the channel
+    doc: The label of the channel.
   - name: source
     neurodata_type_inc: DynamicTableRegion
     shape:

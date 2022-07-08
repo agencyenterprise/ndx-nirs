@@ -90,7 +90,7 @@ class NIRSDetectorsTable(DynamicTable):
         dict(name="y", description="The y coordinate of the optical detector."),
         dict(
             name="z",
-            description="The z coordinate of the optical detector",
+            description="The z coordinate of the optical detector.",
             required=False,
         ),
     )
