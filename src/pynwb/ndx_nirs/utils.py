@@ -16,7 +16,7 @@ def update_docval(fn, *, updates):
         list[dict]: the list of filtered and updated docval items.
 
     Example:
-    ```
+    ```python
     docval_items = update_docval(
         DynamicTable.__init__,
         updates=dict(
