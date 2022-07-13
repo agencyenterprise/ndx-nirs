@@ -1,7 +1,7 @@
 Release Notes
 =============
 
-Upcoming:
+v0.3.0 (June 13, 2022):
 -------
 
 Improvements:
