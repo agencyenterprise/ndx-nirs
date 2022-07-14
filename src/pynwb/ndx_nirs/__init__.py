@@ -207,7 +207,6 @@ class NIRSChannelsTable(DynamicTable):
         when loading an nwb file from disk:
             (id, columns, colnames)
         """
-        print(kwargs)
         sources = popargs("sources", kwargs)
         detectors = popargs("detectors", kwargs)
         super().__init__(**kwargs)
